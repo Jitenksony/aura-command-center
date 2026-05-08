@@ -62,6 +62,15 @@ const ALL_PERMS = [
   "Settings",
 ] as const;
 
+const ROLE_PRESETS: Record<(typeof ROLES)[number], string[]> = {
+  "Super Admin":     [...ALL_PERMS],
+  "Operations Lead": ["Jobs", "Disputes", "Workers", "Reports"],
+  "Trust & Safety":  ["KYC", "Fraud", "Suspensions", "Disputes"],
+  "Finance":         ["Payments", "Refunds", "Reports"],
+  "Support Lead":    ["Tickets", "Users", "Disputes"],
+  "Analyst":         ["Reports"],
+};
+
 const initialAdmins: Admin[] = [
   { name: "Alex Kovac",      role: "Super Admin",     perms: ["Jobs","Disputes","Workers","KYC","Fraud","Suspensions","Payments","Refunds","Tickets","Users","Reports","Settings"], last: "Online now", color: "var(--color-success)" },
   { name: "Maya Singh",      role: "Operations Lead", perms: ["Jobs","Disputes","Workers"],         last: "12m ago",    color: "var(--color-cyan)" },
