@@ -22,14 +22,8 @@ function PaymentsPage() {
         <StatTile label="Pending Payouts" value="$84,120" accent="var(--color-warning)" />
         <StatTile label="Refund Rate" value="1.8%" accent="var(--color-success)" />
       </div>
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
-        <div className="xl:col-span-2">
-          <RevenueChart />
-        </div>
-        <div className="xl:col-span-1">
-          <TransactionsTable />
-        </div>
-      </div>
+      <RevenueChart />
+      <TransactionsTable />
     </PageShell>
   );
 }
