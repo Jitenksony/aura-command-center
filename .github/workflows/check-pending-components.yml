@@ -1,0 +1,22 @@
+name: Pending Component Check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  check-pending:
+    name: Verify route pending components
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run pending-component check
+        run: node scripts/check-pending-components.mjs
