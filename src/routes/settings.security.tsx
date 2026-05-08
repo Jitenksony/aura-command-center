@@ -5,6 +5,7 @@ import { Shield, KeyRound, Lock, ScrollText, Trash2, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { SettingsCard, FieldRow, SaveButton, SecondaryButton } from "@/components/admin/SettingsCard";
+import { RestrictedSection, SECTION_PERMS } from "@/lib/admin-access";
 
 export const Route = createFileRoute("/settings/security")({
   head: () => ({ meta: [{ title: "Security — Settings — Nexora" }] }),
@@ -22,7 +23,7 @@ function SecuritySettings() {
   const inputCls = "h-9 bg-white/5 border-white/10 text-white text-xs";
 
   return (
-    <>
+    <RestrictedSection perms={SECTION_PERMS["/settings/security"]} sectionTitle="Security">
       <SettingsCard
         icon={Shield}
         title="Authentication policy"
@@ -119,6 +120,6 @@ function SecuritySettings() {
           </Select>
         </FieldRow>
       </SettingsCard>
-    </>
+    </RestrictedSection>
   );
 }

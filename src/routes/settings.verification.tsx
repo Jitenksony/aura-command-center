@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { ShieldCheck, FileCheck } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { SettingsCard, FieldRow, SaveButton, ProviderRow } from "@/components/admin/SettingsCard";
+import { RestrictedSection, SECTION_PERMS } from "@/lib/admin-access";
 
 export const Route = createFileRoute("/settings/verification")({
   head: () => ({ meta: [{ title: "Verification — Settings — Nexora" }] }),
@@ -31,7 +32,7 @@ function VerificationSettings() {
   const toggle = (k: string) => setProviders({ ...providers, [k]: !providers[k] });
 
   return (
-    <>
+    <RestrictedSection perms={SECTION_PERMS["/settings/verification"]} sectionTitle="Verification">
       <SettingsCard
         icon={ShieldCheck}
         title="Verification providers"
@@ -85,6 +86,6 @@ function VerificationSettings() {
           </Select>
         </FieldRow>
       </SettingsCard>
-    </>
+    </RestrictedSection>
   );
 }

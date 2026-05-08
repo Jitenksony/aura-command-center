@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { Percent, Gift } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { SettingsCard, FieldRow, SaveButton } from "@/components/admin/SettingsCard";
+import { RestrictedSection, SECTION_PERMS } from "@/lib/admin-access";
 
 export const Route = createFileRoute("/settings/commission")({
   head: () => ({ meta: [{ title: "Commission — Settings — Nexora" }] }),
@@ -33,7 +34,7 @@ function CommissionSettings() {
   const avg = (Object.values(rates).reduce((a, b) => a + b, 0) / CATEGORIES.length).toFixed(1);
 
   return (
-    <>
+    <RestrictedSection perms={SECTION_PERMS["/settings/commission"]} sectionTitle="Commission">
       <SettingsCard
         icon={Percent}
         title="Per-category commission"
@@ -82,6 +83,6 @@ function CommissionSettings() {
           <Input className={inputCls} type="number" value={firstJobDiscount} onChange={(e) => setFirstJobDiscount(e.target.value)} />
         </FieldRow>
       </SettingsCard>
-    </>
+    </RestrictedSection>
   );
 }

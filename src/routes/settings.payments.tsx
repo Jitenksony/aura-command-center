@@ -5,6 +5,7 @@ import { CreditCard, Wallet } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { SettingsCard, FieldRow, SaveButton, ProviderRow } from "@/components/admin/SettingsCard";
+import { RestrictedSection, SECTION_PERMS } from "@/lib/admin-access";
 
 export const Route = createFileRoute("/settings/payments")({
   head: () => ({ meta: [{ title: "Payments — Settings — Nexora" }] }),
@@ -24,7 +25,7 @@ function PaymentsSettings() {
   const toggle = (k: string) => setProviders({ ...providers, [k]: !providers[k] });
 
   return (
-    <>
+    <RestrictedSection perms={SECTION_PERMS["/settings/payments"]} sectionTitle="Payments">
       <SettingsCard
         icon={CreditCard}
         title="Payment providers"
@@ -66,6 +67,6 @@ function PaymentsSettings() {
           <Input className={inputCls} type="number" value={refundWindow} onChange={(e) => setRefundWindow(e.target.value)} />
         </FieldRow>
       </SettingsCard>
-    </>
+    </RestrictedSection>
   );
 }

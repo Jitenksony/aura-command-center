@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { SettingsCard, FieldRow, SaveButton, SecondaryButton, ProviderRow } from "@/components/admin/SettingsCard";
+import { RestrictedSection, SECTION_PERMS } from "@/lib/admin-access";
 
 export const Route = createFileRoute("/settings/email")({
   head: () => ({ meta: [{ title: "Email — Settings — Nexora" }] }),
@@ -34,7 +35,7 @@ function EmailSettings() {
   const toggle = (k: string) => setProviders({ ...providers, [k]: !providers[k] });
 
   return (
-    <>
+    <RestrictedSection perms={SECTION_PERMS["/settings/email"]} sectionTitle="Email">
       <SettingsCard
         icon={Mail}
         title="Email providers"
@@ -79,6 +80,6 @@ function EmailSettings() {
           </FieldRow>
         ))}
       </SettingsCard>
-    </>
+    </RestrictedSection>
   );
 }

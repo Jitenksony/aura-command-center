@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { SettingsCard, FieldRow, SaveButton, ProviderRow } from "@/components/admin/SettingsCard";
+import { RestrictedSection, SECTION_PERMS } from "@/lib/admin-access";
 
 export const Route = createFileRoute("/settings/sms")({
   head: () => ({ meta: [{ title: "SMS — Settings — Nexora" }] }),
@@ -23,7 +24,7 @@ function SmsSettings() {
   const toggle = (k: string) => setProviders({ ...providers, [k]: !providers[k] });
 
   return (
-    <>
+    <RestrictedSection perms={SECTION_PERMS["/settings/sms"]} sectionTitle="SMS">
       <SettingsCard
         icon={MessageSquare}
         title="SMS providers"
@@ -65,6 +66,6 @@ function SmsSettings() {
           <Textarea className="bg-white/5 border-white/10 text-white text-xs min-h-[64px]" defaultValue="New {{category}} job near you · ${{amount}} · Reply YES to accept." />
         </FieldRow>
       </SettingsCard>
-    </>
+    </RestrictedSection>
   );
 }

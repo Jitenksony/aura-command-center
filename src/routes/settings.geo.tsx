@@ -5,6 +5,7 @@ import { Globe, MapPin, Plus, Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { SettingsCard, FieldRow, SaveButton, SecondaryButton } from "@/components/admin/SettingsCard";
+import { RestrictedSection, SECTION_PERMS } from "@/lib/admin-access";
 
 export const Route = createFileRoute("/settings/geo")({
   head: () => ({ meta: [{ title: "Geo — Settings — Nexora" }] }),
@@ -33,7 +34,7 @@ function GeoSettings() {
   const activeRegions = Object.values(enabled).filter(Boolean).length;
 
   return (
-    <>
+    <RestrictedSection perms={SECTION_PERMS["/settings/geo"]} sectionTitle="Geo">
       <SettingsCard
         icon={Globe}
         title="Active regions"
@@ -114,6 +115,6 @@ function GeoSettings() {
           </Select>
         </FieldRow>
       </SettingsCard>
-    </>
+    </RestrictedSection>
   );
 }
