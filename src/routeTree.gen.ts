@@ -9,8 +9,44 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WorkersRouteImport } from './routes/workers'
+import { Route as VerificationRouteImport } from './routes/verification'
+import { Route as UsersRouteImport } from './routes/users'
+import { Route as PaymentsRouteImport } from './routes/payments'
+import { Route as LiveJobsRouteImport } from './routes/live-jobs'
+import { Route as BusinessesRouteImport } from './routes/businesses'
 import { Route as IndexRouteImport } from './routes/index'
 
+const WorkersRoute = WorkersRouteImport.update({
+  id: '/workers',
+  path: '/workers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VerificationRoute = VerificationRouteImport.update({
+  id: '/verification',
+  path: '/verification',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UsersRoute = UsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaymentsRoute = PaymentsRouteImport.update({
+  id: '/payments',
+  path: '/payments',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LiveJobsRoute = LiveJobsRouteImport.update({
+  id: '/live-jobs',
+  path: '/live-jobs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BusinessesRoute = BusinessesRouteImport.update({
+  id: '/businesses',
+  path: '/businesses',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +55,116 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/businesses': typeof BusinessesRoute
+  '/live-jobs': typeof LiveJobsRoute
+  '/payments': typeof PaymentsRoute
+  '/users': typeof UsersRoute
+  '/verification': typeof VerificationRoute
+  '/workers': typeof WorkersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/businesses': typeof BusinessesRoute
+  '/live-jobs': typeof LiveJobsRoute
+  '/payments': typeof PaymentsRoute
+  '/users': typeof UsersRoute
+  '/verification': typeof VerificationRoute
+  '/workers': typeof WorkersRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/businesses': typeof BusinessesRoute
+  '/live-jobs': typeof LiveJobsRoute
+  '/payments': typeof PaymentsRoute
+  '/users': typeof UsersRoute
+  '/verification': typeof VerificationRoute
+  '/workers': typeof WorkersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/businesses'
+    | '/live-jobs'
+    | '/payments'
+    | '/users'
+    | '/verification'
+    | '/workers'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/businesses'
+    | '/live-jobs'
+    | '/payments'
+    | '/users'
+    | '/verification'
+    | '/workers'
+  id:
+    | '__root__'
+    | '/'
+    | '/businesses'
+    | '/live-jobs'
+    | '/payments'
+    | '/users'
+    | '/verification'
+    | '/workers'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BusinessesRoute: typeof BusinessesRoute
+  LiveJobsRoute: typeof LiveJobsRoute
+  PaymentsRoute: typeof PaymentsRoute
+  UsersRoute: typeof UsersRoute
+  VerificationRoute: typeof VerificationRoute
+  WorkersRoute: typeof WorkersRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/workers': {
+      id: '/workers'
+      path: '/workers'
+      fullPath: '/workers'
+      preLoaderRoute: typeof WorkersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/verification': {
+      id: '/verification'
+      path: '/verification'
+      fullPath: '/verification'
+      preLoaderRoute: typeof VerificationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/users': {
+      id: '/users'
+      path: '/users'
+      fullPath: '/users'
+      preLoaderRoute: typeof UsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/payments': {
+      id: '/payments'
+      path: '/payments'
+      fullPath: '/payments'
+      preLoaderRoute: typeof PaymentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/live-jobs': {
+      id: '/live-jobs'
+      path: '/live-jobs'
+      fullPath: '/live-jobs'
+      preLoaderRoute: typeof LiveJobsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/businesses': {
+      id: '/businesses'
+      path: '/businesses'
+      fullPath: '/businesses'
+      preLoaderRoute: typeof BusinessesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,7 +177,23 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BusinessesRoute: BusinessesRoute,
+  LiveJobsRoute: LiveJobsRoute,
+  PaymentsRoute: PaymentsRoute,
+  UsersRoute: UsersRoute,
+  VerificationRoute: VerificationRoute,
+  WorkersRoute: WorkersRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
