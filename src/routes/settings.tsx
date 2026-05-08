@@ -41,7 +41,7 @@ function SettingsLayout() {
             {NAV.map((n) => (
               <Link
                 key={n.to}
-                to={n.to}
+                to={n.to as "/settings"}
                 activeOptions={{ exact: n.exact ?? false }}
                 className="group flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-white/65 hover:text-white hover:bg-white/5 transition data-[status=active]:text-white data-[status=active]:bg-[oklch(0.62_0.21_275_/_0.15)]"
               >
