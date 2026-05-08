@@ -1,10 +1,13 @@
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import {
   Settings as SettingsIcon, Shield, CreditCard, MessageSquare, Mail,
-  ShieldCheck, Percent, Globe, LayoutGrid,
+  ShieldCheck, Percent, Globe, LayoutGrid, Lock,
 } from "lucide-react";
 import { FormSkeleton } from "@/components/admin/PageSkeletons";
 import { PageShell } from "@/components/admin/PageShell";
+import {
+  AdminAccessProvider, PersonaSwitcher, SECTION_PERMS, useAdminAccess,
+} from "@/lib/admin-access";
 
 export const Route = createFileRoute("/settings")({
   loader: async () => { await new Promise((r) => setTimeout(r, 380)); return null; },
@@ -30,31 +33,49 @@ const NAV: NavItem[] = [
 
 function SettingsLayout() {
   return (
-    <PageShell
-      eyebrow="Configuration"
-      title="Settings"
-      description="Tune the Nexora platform — security, payments, providers, commissions, and reach."
-    >
-      <div className="grid grid-cols-12 gap-4">
-        <aside className="col-span-12 lg:col-span-3 xl:col-span-2">
-          <nav className="rounded-2xl glass gradient-border p-2 sticky top-4">
-            {NAV.map((n) => (
-              <Link
-                key={n.to}
-                to={n.to as "/settings"}
-                activeOptions={{ exact: n.exact ?? false }}
-                className="group flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-white/65 hover:text-white hover:bg-white/5 transition data-[status=active]:text-white data-[status=active]:bg-[oklch(0.62_0.21_275_/_0.15)]"
-              >
-                <n.icon className="h-3.5 w-3.5" />
-                {n.label}
-              </Link>
-            ))}
-          </nav>
-        </aside>
-        <section className="col-span-12 lg:col-span-9 xl:col-span-10 space-y-4">
-          <Outlet />
-        </section>
-      </div>
-    </PageShell>
+    <AdminAccessProvider>
+      <PageShell
+        eyebrow="Configuration"
+        title="Settings"
+        description="Tune the Nexora platform — security, payments, providers, commissions, and reach."
+      >
+        <div className="grid grid-cols-12 gap-4">
+          <aside className="col-span-12 lg:col-span-3 xl:col-span-2">
+            <div className="sticky top-4 space-y-2">
+              <PersonaSwitcher />
+              <SettingsNav />
+            </div>
+          </aside>
+          <section className="col-span-12 lg:col-span-9 xl:col-span-10 space-y-4">
+            <Outlet />
+          </section>
+        </div>
+      </PageShell>
+    </AdminAccessProvider>
+  );
+}
+
+function SettingsNav() {
+  const { can } = useAdminAccess();
+  return (
+    <nav className="rounded-2xl glass gradient-border p-2">
+      {NAV.map((n) => {
+        const required = SECTION_PERMS[n.to];
+        const locked = required ? !can(required) : false;
+        return (
+          <Link
+            key={n.to}
+            to={n.to as "/settings"}
+            activeOptions={{ exact: n.exact ?? false }}
+            className="group flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-white/65 hover:text-white hover:bg-white/5 transition data-[status=active]:text-white data-[status=active]:bg-[oklch(0.62_0.21_275_/_0.15)]"
+            title={locked ? `Read-only · needs ${required?.join(" + ")}` : undefined}
+          >
+            <n.icon className="h-3.5 w-3.5" />
+            <span className="flex-1">{n.label}</span>
+            {locked && <Lock className="h-3 w-3 text-white/40" />}
+          </Link>
+        );
+      })}
+    </nav>
   );
 }
