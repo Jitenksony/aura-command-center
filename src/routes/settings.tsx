@@ -15,7 +15,8 @@ export const Route = createFileRoute("/settings")({
   component: SettingsLayout,
 });
 
-const NAV = [
+type NavItem = { to: string; label: string; icon: typeof SettingsIcon; exact?: boolean };
+const NAV: NavItem[] = [
   { to: "/settings",              label: "Overview",     icon: LayoutGrid,    exact: true },
   { to: "/settings/platform",     label: "Platform",     icon: SettingsIcon },
   { to: "/settings/security",     label: "Security",     icon: Shield },
@@ -25,7 +26,7 @@ const NAV = [
   { to: "/settings/verification", label: "Verification", icon: ShieldCheck },
   { to: "/settings/commission",   label: "Commission",   icon: Percent },
   { to: "/settings/geo",          label: "Geo",          icon: Globe },
-] as const;
+];
 
 function SettingsLayout() {
   return (
