@@ -5,6 +5,7 @@ import {
 import appCss from "../styles.css?url";
 import { AppSidebar } from "@/components/admin/AppSidebar";
 import { TopBar } from "@/components/admin/TopBar";
+import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
   return (
@@ -91,6 +92,7 @@ function RootComponent() {
           <Outlet />
         </div>
       </div>
+      <Toaster />
     </QueryClientProvider>
   );
 }
