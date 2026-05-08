@@ -1,6 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
+import {
+  Settings as SettingsIcon, Shield, CreditCard, MessageSquare, Mail,
+  ShieldCheck, Percent, Globe, LayoutGrid,
+} from "lucide-react";
 import { FormSkeleton } from "@/components/admin/PageSkeletons";
-import { Settings as SettingsIcon, Shield, CreditCard, MessageSquare, Mail, ShieldCheck, Percent, Globe } from "lucide-react";
 import { PageShell } from "@/components/admin/PageShell";
 
 export const Route = createFileRoute("/settings")({
@@ -9,43 +12,48 @@ export const Route = createFileRoute("/settings")({
   pendingMinMs: 400,
   pendingComponent: () => (<FormSkeleton {...{ eyebrow: "Configuration" }} />),
   head: () => ({ meta: [{ title: "Settings — Nexora" }] }),
-  component: SettingsPage,
+  component: SettingsLayout,
 });
 
-const sections = [
-  { icon: SettingsIcon,  title: "Platform Settings",     desc: "General configuration, branding, and feature flags.",   items: ["App name", "Default locale", "Feature flags"] },
-  { icon: Shield,        title: "Security",              desc: "Authentication policies, IP allowlists, and audit logs.", items: ["2FA enforcement", "Session length", "IP allowlist"] },
-  { icon: CreditCard,    title: "Payment Gateways",      desc: "Stripe, PayPal, Wise, and ACH provider configuration.",  items: ["Stripe", "PayPal", "Wise"] },
-  { icon: MessageSquare, title: "SMS Providers",         desc: "Twilio, MessageBird, and regional SMS carriers.",         items: ["Twilio", "MessageBird"] },
-  { icon: Mail,          title: "Email Providers",       desc: "Transactional and marketing email senders.",              items: ["Postmark", "SendGrid"] },
-  { icon: ShieldCheck,   title: "Verification Providers", desc: "KYC, document, and liveness vendors.",                    items: ["Onfido", "Persona", "Veriff"] },
-  { icon: Percent,       title: "Commission Settings",   desc: "Per-category commission, referral bonuses, and payouts.",  items: ["Cleaning 18%", "Moving 14%", "Plumbing 16%"] },
-  { icon: Globe,         title: "Geo Restrictions",      desc: "Country, region, and city-level availability.",           items: ["186 countries", "32 restricted regions"] },
+type NavItem = { to: string; label: string; icon: typeof SettingsIcon; exact?: boolean };
+const NAV: NavItem[] = [
+  { to: "/settings",              label: "Overview",     icon: LayoutGrid,    exact: true },
+  { to: "/settings/platform",     label: "Platform",     icon: SettingsIcon },
+  { to: "/settings/security",     label: "Security",     icon: Shield },
+  { to: "/settings/payments",     label: "Payments",     icon: CreditCard },
+  { to: "/settings/sms",          label: "SMS",          icon: MessageSquare },
+  { to: "/settings/email",        label: "Email",        icon: Mail },
+  { to: "/settings/verification", label: "Verification", icon: ShieldCheck },
+  { to: "/settings/commission",   label: "Commission",   icon: Percent },
+  { to: "/settings/geo",          label: "Geo",          icon: Globe },
 ];
 
-function SettingsPage() {
+function SettingsLayout() {
   return (
-    <PageShell eyebrow="Configuration" title="Settings" description="Tune the platform — security, payments, providers, and more.">
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-        {sections.map((s) => (
-          <div key={s.title} className="rounded-2xl glass gradient-border p-5 hover-lift cursor-pointer">
-            <div className="flex items-start gap-3">
-              <div className="grid place-items-center h-10 w-10 rounded-xl"
-                style={{ background: "linear-gradient(135deg, oklch(0.62 0.21 275 / 0.25), oklch(0.74 0.15 210 / 0.15))", border: "1px solid oklch(1 0 0 / 0.08)" }}>
-                <s.icon className="h-5 w-5 text-white" />
-              </div>
-              <div>
-                <div className="text-sm font-semibold text-white">{s.title}</div>
-                <div className="text-[11px] text-white/50 mt-0.5">{s.desc}</div>
-              </div>
-            </div>
-            <div className="mt-4 flex flex-wrap gap-1.5">
-              {s.items.map((i) => (
-                <span key={i} className="text-[10px] px-2 py-0.5 rounded-md text-white/70" style={{ background: "oklch(1 0 0 / 0.05)" }}>{i}</span>
-              ))}
-            </div>
-          </div>
-        ))}
+    <PageShell
+      eyebrow="Configuration"
+      title="Settings"
+      description="Tune the Nexora platform — security, payments, providers, commissions, and reach."
+    >
+      <div className="grid grid-cols-12 gap-4">
+        <aside className="col-span-12 lg:col-span-3 xl:col-span-2">
+          <nav className="rounded-2xl glass gradient-border p-2 sticky top-4">
+            {NAV.map((n) => (
+              <Link
+                key={n.to}
+                to={n.to as "/settings"}
+                activeOptions={{ exact: n.exact ?? false }}
+                className="group flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-white/65 hover:text-white hover:bg-white/5 transition data-[status=active]:text-white data-[status=active]:bg-[oklch(0.62_0.21_275_/_0.15)]"
+              >
+                <n.icon className="h-3.5 w-3.5" />
+                {n.label}
+              </Link>
+            ))}
+          </nav>
+        </aside>
+        <section className="col-span-12 lg:col-span-9 xl:col-span-10 space-y-4">
+          <Outlet />
+        </section>
       </div>
     </PageShell>
   );

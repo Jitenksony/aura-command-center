@@ -24,6 +24,15 @@ import { Route as BusinessesRouteImport } from './routes/businesses'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SettingsIndexRouteImport } from './routes/settings.index'
+import { Route as SettingsVerificationRouteImport } from './routes/settings.verification'
+import { Route as SettingsSmsRouteImport } from './routes/settings.sms'
+import { Route as SettingsSecurityRouteImport } from './routes/settings.security'
+import { Route as SettingsPlatformRouteImport } from './routes/settings.platform'
+import { Route as SettingsPaymentsRouteImport } from './routes/settings.payments'
+import { Route as SettingsGeoRouteImport } from './routes/settings.geo'
+import { Route as SettingsEmailRouteImport } from './routes/settings.email'
+import { Route as SettingsCommissionRouteImport } from './routes/settings.commission'
 
 const WorkersRoute = WorkersRouteImport.update({
   id: '/workers',
@@ -100,6 +109,51 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SettingsIndexRoute = SettingsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => SettingsRoute,
+} as any)
+const SettingsVerificationRoute = SettingsVerificationRouteImport.update({
+  id: '/verification',
+  path: '/verification',
+  getParentRoute: () => SettingsRoute,
+} as any)
+const SettingsSmsRoute = SettingsSmsRouteImport.update({
+  id: '/sms',
+  path: '/sms',
+  getParentRoute: () => SettingsRoute,
+} as any)
+const SettingsSecurityRoute = SettingsSecurityRouteImport.update({
+  id: '/security',
+  path: '/security',
+  getParentRoute: () => SettingsRoute,
+} as any)
+const SettingsPlatformRoute = SettingsPlatformRouteImport.update({
+  id: '/platform',
+  path: '/platform',
+  getParentRoute: () => SettingsRoute,
+} as any)
+const SettingsPaymentsRoute = SettingsPaymentsRouteImport.update({
+  id: '/payments',
+  path: '/payments',
+  getParentRoute: () => SettingsRoute,
+} as any)
+const SettingsGeoRoute = SettingsGeoRouteImport.update({
+  id: '/geo',
+  path: '/geo',
+  getParentRoute: () => SettingsRoute,
+} as any)
+const SettingsEmailRoute = SettingsEmailRouteImport.update({
+  id: '/email',
+  path: '/email',
+  getParentRoute: () => SettingsRoute,
+} as any)
+const SettingsCommissionRoute = SettingsCommissionRouteImport.update({
+  id: '/commission',
+  path: '/commission',
+  getParentRoute: () => SettingsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -112,11 +166,20 @@ export interface FileRoutesByFullPath {
   '/notifications': typeof NotificationsRoute
   '/payments': typeof PaymentsRoute
   '/reports': typeof ReportsRoute
-  '/settings': typeof SettingsRoute
+  '/settings': typeof SettingsRouteWithChildren
   '/support': typeof SupportRoute
   '/users': typeof UsersRoute
   '/verification': typeof VerificationRoute
   '/workers': typeof WorkersRoute
+  '/settings/commission': typeof SettingsCommissionRoute
+  '/settings/email': typeof SettingsEmailRoute
+  '/settings/geo': typeof SettingsGeoRoute
+  '/settings/payments': typeof SettingsPaymentsRoute
+  '/settings/platform': typeof SettingsPlatformRoute
+  '/settings/security': typeof SettingsSecurityRoute
+  '/settings/sms': typeof SettingsSmsRoute
+  '/settings/verification': typeof SettingsVerificationRoute
+  '/settings/': typeof SettingsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -129,11 +192,19 @@ export interface FileRoutesByTo {
   '/notifications': typeof NotificationsRoute
   '/payments': typeof PaymentsRoute
   '/reports': typeof ReportsRoute
-  '/settings': typeof SettingsRoute
   '/support': typeof SupportRoute
   '/users': typeof UsersRoute
   '/verification': typeof VerificationRoute
   '/workers': typeof WorkersRoute
+  '/settings/commission': typeof SettingsCommissionRoute
+  '/settings/email': typeof SettingsEmailRoute
+  '/settings/geo': typeof SettingsGeoRoute
+  '/settings/payments': typeof SettingsPaymentsRoute
+  '/settings/platform': typeof SettingsPlatformRoute
+  '/settings/security': typeof SettingsSecurityRoute
+  '/settings/sms': typeof SettingsSmsRoute
+  '/settings/verification': typeof SettingsVerificationRoute
+  '/settings': typeof SettingsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -147,11 +218,20 @@ export interface FileRoutesById {
   '/notifications': typeof NotificationsRoute
   '/payments': typeof PaymentsRoute
   '/reports': typeof ReportsRoute
-  '/settings': typeof SettingsRoute
+  '/settings': typeof SettingsRouteWithChildren
   '/support': typeof SupportRoute
   '/users': typeof UsersRoute
   '/verification': typeof VerificationRoute
   '/workers': typeof WorkersRoute
+  '/settings/commission': typeof SettingsCommissionRoute
+  '/settings/email': typeof SettingsEmailRoute
+  '/settings/geo': typeof SettingsGeoRoute
+  '/settings/payments': typeof SettingsPaymentsRoute
+  '/settings/platform': typeof SettingsPlatformRoute
+  '/settings/security': typeof SettingsSecurityRoute
+  '/settings/sms': typeof SettingsSmsRoute
+  '/settings/verification': typeof SettingsVerificationRoute
+  '/settings/': typeof SettingsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -171,6 +251,15 @@ export interface FileRouteTypes {
     | '/users'
     | '/verification'
     | '/workers'
+    | '/settings/commission'
+    | '/settings/email'
+    | '/settings/geo'
+    | '/settings/payments'
+    | '/settings/platform'
+    | '/settings/security'
+    | '/settings/sms'
+    | '/settings/verification'
+    | '/settings/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -183,11 +272,19 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/payments'
     | '/reports'
-    | '/settings'
     | '/support'
     | '/users'
     | '/verification'
     | '/workers'
+    | '/settings/commission'
+    | '/settings/email'
+    | '/settings/geo'
+    | '/settings/payments'
+    | '/settings/platform'
+    | '/settings/security'
+    | '/settings/sms'
+    | '/settings/verification'
+    | '/settings'
   id:
     | '__root__'
     | '/'
@@ -205,6 +302,15 @@ export interface FileRouteTypes {
     | '/users'
     | '/verification'
     | '/workers'
+    | '/settings/commission'
+    | '/settings/email'
+    | '/settings/geo'
+    | '/settings/payments'
+    | '/settings/platform'
+    | '/settings/security'
+    | '/settings/sms'
+    | '/settings/verification'
+    | '/settings/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -218,7 +324,7 @@ export interface RootRouteChildren {
   NotificationsRoute: typeof NotificationsRoute
   PaymentsRoute: typeof PaymentsRoute
   ReportsRoute: typeof ReportsRoute
-  SettingsRoute: typeof SettingsRoute
+  SettingsRoute: typeof SettingsRouteWithChildren
   SupportRoute: typeof SupportRoute
   UsersRoute: typeof UsersRoute
   VerificationRoute: typeof VerificationRoute
@@ -332,8 +438,99 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/settings/': {
+      id: '/settings/'
+      path: '/'
+      fullPath: '/settings/'
+      preLoaderRoute: typeof SettingsIndexRouteImport
+      parentRoute: typeof SettingsRoute
+    }
+    '/settings/verification': {
+      id: '/settings/verification'
+      path: '/verification'
+      fullPath: '/settings/verification'
+      preLoaderRoute: typeof SettingsVerificationRouteImport
+      parentRoute: typeof SettingsRoute
+    }
+    '/settings/sms': {
+      id: '/settings/sms'
+      path: '/sms'
+      fullPath: '/settings/sms'
+      preLoaderRoute: typeof SettingsSmsRouteImport
+      parentRoute: typeof SettingsRoute
+    }
+    '/settings/security': {
+      id: '/settings/security'
+      path: '/security'
+      fullPath: '/settings/security'
+      preLoaderRoute: typeof SettingsSecurityRouteImport
+      parentRoute: typeof SettingsRoute
+    }
+    '/settings/platform': {
+      id: '/settings/platform'
+      path: '/platform'
+      fullPath: '/settings/platform'
+      preLoaderRoute: typeof SettingsPlatformRouteImport
+      parentRoute: typeof SettingsRoute
+    }
+    '/settings/payments': {
+      id: '/settings/payments'
+      path: '/payments'
+      fullPath: '/settings/payments'
+      preLoaderRoute: typeof SettingsPaymentsRouteImport
+      parentRoute: typeof SettingsRoute
+    }
+    '/settings/geo': {
+      id: '/settings/geo'
+      path: '/geo'
+      fullPath: '/settings/geo'
+      preLoaderRoute: typeof SettingsGeoRouteImport
+      parentRoute: typeof SettingsRoute
+    }
+    '/settings/email': {
+      id: '/settings/email'
+      path: '/email'
+      fullPath: '/settings/email'
+      preLoaderRoute: typeof SettingsEmailRouteImport
+      parentRoute: typeof SettingsRoute
+    }
+    '/settings/commission': {
+      id: '/settings/commission'
+      path: '/commission'
+      fullPath: '/settings/commission'
+      preLoaderRoute: typeof SettingsCommissionRouteImport
+      parentRoute: typeof SettingsRoute
+    }
   }
 }
+
+interface SettingsRouteChildren {
+  SettingsCommissionRoute: typeof SettingsCommissionRoute
+  SettingsEmailRoute: typeof SettingsEmailRoute
+  SettingsGeoRoute: typeof SettingsGeoRoute
+  SettingsPaymentsRoute: typeof SettingsPaymentsRoute
+  SettingsPlatformRoute: typeof SettingsPlatformRoute
+  SettingsSecurityRoute: typeof SettingsSecurityRoute
+  SettingsSmsRoute: typeof SettingsSmsRoute
+  SettingsVerificationRoute: typeof SettingsVerificationRoute
+  SettingsIndexRoute: typeof SettingsIndexRoute
+}
+
+const SettingsRouteChildren: SettingsRouteChildren = {
+  SettingsCommissionRoute: SettingsCommissionRoute,
+  SettingsEmailRoute: SettingsEmailRoute,
+  SettingsGeoRoute: SettingsGeoRoute,
+  SettingsPaymentsRoute: SettingsPaymentsRoute,
+  SettingsPlatformRoute: SettingsPlatformRoute,
+  SettingsSecurityRoute: SettingsSecurityRoute,
+  SettingsSmsRoute: SettingsSmsRoute,
+  SettingsVerificationRoute: SettingsVerificationRoute,
+  SettingsIndexRoute: SettingsIndexRoute,
+}
+
+const SettingsRouteWithChildren = SettingsRoute._addFileChildren(
+  SettingsRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -346,7 +543,7 @@ const rootRouteChildren: RootRouteChildren = {
   NotificationsRoute: NotificationsRoute,
   PaymentsRoute: PaymentsRoute,
   ReportsRoute: ReportsRoute,
-  SettingsRoute: SettingsRoute,
+  SettingsRoute: SettingsRouteWithChildren,
   SupportRoute: SupportRoute,
   UsersRoute: UsersRoute,
   VerificationRoute: VerificationRoute,
