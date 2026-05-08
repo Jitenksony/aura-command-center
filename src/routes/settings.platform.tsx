@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { SettingsCard, FieldRow, SaveButton, SecondaryButton } from "@/components/admin/SettingsCard";
+import { RestrictedSection, SECTION_PERMS } from "@/lib/admin-access";
 
 export const Route = createFileRoute("/settings/platform")({
   head: () => ({ meta: [{ title: "Platform — Settings — Nexora" }] }),
@@ -37,7 +38,7 @@ function PlatformSettings() {
   const inputCls = "h-9 bg-white/5 border-white/10 text-white text-xs";
 
   return (
-    <>
+    <RestrictedSection perms={SECTION_PERMS["/settings/platform"]} sectionTitle="Platform">
       <SettingsCard
         icon={SettingsIcon}
         title="Platform identity"
@@ -123,6 +124,6 @@ function PlatformSettings() {
           </button>
         </FieldRow>
       </SettingsCard>
-    </>
+    </RestrictedSection>
   );
 }
