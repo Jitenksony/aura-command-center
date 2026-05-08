@@ -124,6 +124,6 @@ function PlatformSettings() {
           </button>
         </FieldRow>
       </SettingsCard>
-    </>
+    </RestrictedSection>
   );
 }
