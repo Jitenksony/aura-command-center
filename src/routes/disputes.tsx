@@ -1,8 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { SplitSkeleton } from "@/components/admin/PageSkeletons";
 import { Gavel, MessageSquare, FileText, Clock } from "lucide-react";
 import { PageShell, StatTile } from "@/components/admin/PageShell";
 
 export const Route = createFileRoute("/disputes")({
+  loader: async () => { await new Promise((r) => setTimeout(r, 380)); return null; },
+  pendingMs: 0,
+  pendingMinMs: 400,
+  pendingComponent: () => (<SplitSkeleton {...{ eyebrow: "Resolution" }} />),
   head: () => ({ meta: [{ title: "Disputes — Nexora" }] }),
   component: DisputesPage,
 });

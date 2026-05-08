@@ -1,8 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { CardGridSkeleton } from "@/components/admin/PageSkeletons";
 import { FileBarChart, Download, Calendar } from "lucide-react";
 import { PageShell, StatTile } from "@/components/admin/PageShell";
 
 export const Route = createFileRoute("/reports")({
+  loader: async () => { await new Promise((r) => setTimeout(r, 380)); return null; },
+  pendingMs: 0,
+  pendingMinMs: 400,
+  pendingComponent: () => (<CardGridSkeleton {...{ eyebrow: "Reporting", count: 9 }} />),
   head: () => ({ meta: [{ title: "Reports — Nexora" }] }),
   component: ReportsPage,
 });

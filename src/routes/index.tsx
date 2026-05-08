@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { DashboardSkeleton } from "@/components/admin/PageSkeletons";
 import {
   Users, HardHat, Briefcase, DollarSign, ShieldCheck, Building2, ShieldAlert, LifeBuoy,
 } from "lucide-react";
@@ -12,6 +13,10 @@ import { FraudPanel } from "@/components/admin/FraudPanel";
 import { TransactionsTable } from "@/components/admin/TransactionsTable";
 
 export const Route = createFileRoute("/")({
+  loader: async () => { await new Promise((r) => setTimeout(r, 380)); return null; },
+  pendingMs: 0,
+  pendingMinMs: 400,
+  pendingComponent: () => (<DashboardSkeleton />),
   head: () => ({ meta: [{ title: "Dashboard — Nexora" }] }),
   component: Dashboard,
 });

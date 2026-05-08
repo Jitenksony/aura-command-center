@@ -1,8 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { SplitSkeleton } from "@/components/admin/PageSkeletons";
 import { PageShell, StatTile } from "@/components/admin/PageShell";
 import { VerificationPanel } from "@/components/admin/VerificationPanel";
 
 export const Route = createFileRoute("/verification")({
+  loader: async () => { await new Promise((r) => setTimeout(r, 380)); return null; },
+  pendingMs: 0,
+  pendingMinMs: 400,
+  pendingComponent: () => (<SplitSkeleton {...{ eyebrow: "Verification" }} />),
   head: () => ({ meta: [{ title: "Verification Center — Nexora" }] }),
   component: VerificationPage,
 });
