@@ -62,6 +62,15 @@ const ALL_PERMS = [
   "Settings",
 ] as const;
 
+const ROLE_PRESETS: Record<(typeof ROLES)[number], string[]> = {
+  "Super Admin":     [...ALL_PERMS],
+  "Operations Lead": ["Jobs", "Disputes", "Workers", "Reports"],
+  "Trust & Safety":  ["KYC", "Fraud", "Suspensions", "Disputes"],
+  "Finance":         ["Payments", "Refunds", "Reports"],
+  "Support Lead":    ["Tickets", "Users", "Disputes"],
+  "Analyst":         ["Reports"],
+};
+
 const initialAdmins: Admin[] = [
   { name: "Alex Kovac",      role: "Super Admin",     perms: ["Jobs","Disputes","Workers","KYC","Fraud","Suspensions","Payments","Refunds","Tickets","Users","Reports","Settings"], last: "Online now", color: "var(--color-success)" },
   { name: "Maya Singh",      role: "Operations Lead", perms: ["Jobs","Disputes","Workers"],         last: "12m ago",    color: "var(--color-cyan)" },
@@ -173,7 +182,14 @@ function AdminPage() {
           <div className="space-y-5 pt-2">
             <div className="space-y-2">
               <Label className="text-xs uppercase tracking-wider text-white/50">Role</Label>
-              <Select value={draftRole} onValueChange={setDraftRole}>
+              <Select
+                value={draftRole}
+                onValueChange={(r) => {
+                  setDraftRole(r);
+                  const preset = ROLE_PRESETS[r as keyof typeof ROLE_PRESETS];
+                  if (preset) setDraftPerms([...preset]);
+                }}
+              >
                 <SelectTrigger className="bg-white/5 border-white/10 text-white">
                   <SelectValue placeholder="Select a role" />
                 </SelectTrigger>
@@ -183,6 +199,37 @@ function AdminPage() {
                   ))}
                 </SelectContent>
               </Select>
+              <p className="text-[11px] text-white/40">
+                Selecting a role auto-applies its default permission preset.
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-xs uppercase tracking-wider text-white/50">Quick presets</Label>
+              <div className="flex flex-wrap gap-1.5">
+                {ROLES.map((r) => {
+                  const preset = ROLE_PRESETS[r];
+                  const isActive =
+                    draftPerms.length === preset.length &&
+                    preset.every((p) => draftPerms.includes(p));
+                  return (
+                    <button
+                      key={r}
+                      type="button"
+                      onClick={() => setDraftPerms([...preset])}
+                      className={`text-[11px] px-2.5 h-7 rounded-md border transition ${
+                        isActive
+                          ? "border-[var(--color-cyan)] bg-[oklch(0.74_0.15_210_/_0.15)] text-white"
+                          : "border-white/10 text-white/65 hover:bg-white/5 hover:text-white"
+                      }`}
+                      title={`Apply ${r} preset (${preset.length})`}
+                    >
+                      {r}
+                      <span className="ml-1.5 text-white/40">{preset.length}</span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
             <div className="space-y-2">
