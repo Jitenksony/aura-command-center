@@ -1,6 +1,11 @@
+import { useState } from "react";
 import { Search, Bell, Globe, Command, ChevronDown, Activity } from "lucide-react";
+import { NotificationsDrawer, useNotifications } from "./NotificationsDrawer";
 
 export function TopBar() {
+  const [open, setOpen] = useState(false);
+  const notif = useNotifications();
+
   return (
     <header className="sticky top-0 z-20 h-16 px-6 flex items-center gap-4 backdrop-blur-xl"
       style={{
@@ -38,10 +43,24 @@ export function TopBar() {
       </button>
 
       {/* Notifications */}
-      <button className="relative grid place-items-center h-10 w-10 rounded-xl hover:bg-white/5 transition">
+      <button
+        onClick={() => setOpen(true)}
+        aria-label={`Notifications, ${notif.unread} unread`}
+        className="relative grid place-items-center h-10 w-10 rounded-xl hover:bg-white/5 transition"
+      >
         <Bell className="h-[18px] w-[18px] text-white/70" />
-        <span className="absolute top-2 right-2 h-4 min-w-4 px-1 grid place-items-center text-[9px] font-bold text-white rounded-full"
-          style={{ background: "var(--gradient-danger)" }}>9</span>
+        {notif.unread > 0 && (
+          <span
+            className="absolute top-2 right-2 h-4 min-w-4 px-1 grid place-items-center text-[9px] font-bold text-white rounded-full ring-2 ring-[oklch(0.18_0.04_264)]"
+            style={{ background: "var(--gradient-danger)" }}
+          >
+            {notif.unread > 9 ? "9+" : notif.unread}
+          </span>
+        )}
+        {notif.unread > 0 && (
+          <span className="absolute top-2 right-2 h-4 w-4 rounded-full opacity-60 animate-ping"
+            style={{ background: "oklch(0.65 0.23 27 / 0.7)" }} />
+        )}
       </button>
 
       {/* Profile */}
@@ -53,6 +72,8 @@ export function TopBar() {
         </div>
         <ChevronDown className="h-3.5 w-3.5 text-white/50" />
       </button>
+
+      <NotificationsDrawer open={open} onClose={() => setOpen(false)} {...notif} />
     </header>
   );
 }
