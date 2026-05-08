@@ -8,7 +8,7 @@ const data = Array.from({ length: 24 }, (_, i) => ({
 
 export function RevenueChart() {
   return (
-    <div className="rounded-2xl glass gradient-border p-5 h-full">
+    <div className="rounded-2xl glass gradient-border p-5 h-full flex flex-col">
       <div className="flex items-start justify-between mb-4">
         <div>
           <h3 className="text-sm font-semibold text-white tracking-tight">Platform Revenue</h3>
@@ -29,7 +29,7 @@ export function RevenueChart() {
           <div className="text-[11px] text-white/40">Net commission</div>
         </div>
       </div>
-      <div className="h-[220px] -mx-2">
+      <div className="h-[200px] -mx-2 flex-1 min-h-0">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
             <defs>
