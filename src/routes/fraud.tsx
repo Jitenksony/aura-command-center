@@ -1,8 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { SplitSkeleton } from "@/components/admin/PageSkeletons";
 import { PageShell, StatTile } from "@/components/admin/PageShell";
 import { FraudPanel } from "@/components/admin/FraudPanel";
 
 export const Route = createFileRoute("/fraud")({
+  loader: async () => { await new Promise((r) => setTimeout(r, 380)); return null; },
+  pendingMs: 0,
+  pendingMinMs: 400,
+  pendingComponent: () => (<SplitSkeleton {...{ eyebrow: "Risk" }} />),
   head: () => ({ meta: [{ title: "Fraud Detection — Nexora" }] }),
   component: FraudPage,
 });

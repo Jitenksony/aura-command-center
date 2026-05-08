@@ -1,8 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { TableSkeleton } from "@/components/admin/PageSkeletons";
 import { UserCog, ShieldCheck, Plus } from "lucide-react";
 import { PageShell, StatTile } from "@/components/admin/PageShell";
 
 export const Route = createFileRoute("/admin")({
+  loader: async () => { await new Promise((r) => setTimeout(r, 380)); return null; },
+  pendingMs: 0,
+  pendingMinMs: 400,
+  pendingComponent: () => (<TableSkeleton {...{ eyebrow: "Access", stats: 3, rows: 7, cols: 6 }} />),
   head: () => ({ meta: [{ title: "Admin Management — Nexora" }] }),
   component: AdminPage,
 });

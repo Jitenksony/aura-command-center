@@ -1,9 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { MapSkeleton } from "@/components/admin/PageSkeletons";
 import { Radio, MapPin, Clock, DollarSign, Filter, Plus } from "lucide-react";
 import { PageShell, StatTile } from "@/components/admin/PageShell";
 import { MapPanel } from "@/components/admin/MapPanel";
 
 export const Route = createFileRoute("/live-jobs")({
+  loader: async () => { await new Promise((r) => setTimeout(r, 380)); return null; },
+  pendingMs: 0,
+  pendingMinMs: 400,
+  pendingComponent: () => (<MapSkeleton />),
   head: () => ({ meta: [{ title: "Live Jobs — Nexora" }] }),
   component: LiveJobsPage,
 });

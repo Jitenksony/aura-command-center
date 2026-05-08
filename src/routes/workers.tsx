@@ -1,8 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { CardGridSkeleton } from "@/components/admin/PageSkeletons";
 import { Star, MapPin, BadgeCheck, Briefcase } from "lucide-react";
 import { PageShell, StatTile } from "@/components/admin/PageShell";
 
 export const Route = createFileRoute("/workers")({
+  loader: async () => { await new Promise((r) => setTimeout(r, 380)); return null; },
+  pendingMs: 0,
+  pendingMinMs: 400,
+  pendingComponent: () => (<CardGridSkeleton {...{ eyebrow: "Workforce", count: 9 }} />),
   head: () => ({ meta: [{ title: "Workers — Nexora" }] }),
   component: WorkersPage,
 });

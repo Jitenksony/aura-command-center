@@ -1,9 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { AnalyticsSkeleton } from "@/components/admin/PageSkeletons";
 import { PageShell, StatTile } from "@/components/admin/PageShell";
 import { RevenueChart } from "@/components/admin/RevenueChart";
 import { TransactionsTable } from "@/components/admin/TransactionsTable";
 
 export const Route = createFileRoute("/payments")({
+  loader: async () => { await new Promise((r) => setTimeout(r, 380)); return null; },
+  pendingMs: 0,
+  pendingMinMs: 400,
+  pendingComponent: () => (<AnalyticsSkeleton />),
   head: () => ({ meta: [{ title: "Payments — Nexora" }] }),
   component: PaymentsPage,
 });

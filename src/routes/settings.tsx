@@ -1,8 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { FormSkeleton } from "@/components/admin/PageSkeletons";
 import { Settings as SettingsIcon, Shield, CreditCard, MessageSquare, Mail, ShieldCheck, Percent, Globe } from "lucide-react";
 import { PageShell } from "@/components/admin/PageShell";
 
 export const Route = createFileRoute("/settings")({
+  loader: async () => { await new Promise((r) => setTimeout(r, 380)); return null; },
+  pendingMs: 0,
+  pendingMinMs: 400,
+  pendingComponent: () => (<FormSkeleton {...{ eyebrow: "Configuration" }} />),
   head: () => ({ meta: [{ title: "Settings — Nexora" }] }),
   component: SettingsPage,
 });

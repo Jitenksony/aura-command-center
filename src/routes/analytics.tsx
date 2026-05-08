@@ -1,9 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { AnalyticsSkeleton } from "@/components/admin/PageSkeletons";
 import { Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { PageShell, StatTile } from "@/components/admin/PageShell";
 import { RevenueChart } from "@/components/admin/RevenueChart";
 
 export const Route = createFileRoute("/analytics")({
+  loader: async () => { await new Promise((r) => setTimeout(r, 380)); return null; },
+  pendingMs: 0,
+  pendingMinMs: 400,
+  pendingComponent: () => (<AnalyticsSkeleton />),
   head: () => ({ meta: [{ title: "Analytics — Nexora" }] }),
   component: AnalyticsPage,
 });

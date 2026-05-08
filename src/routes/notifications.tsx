@@ -1,8 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { CardGridSkeleton } from "@/components/admin/PageSkeletons";
 import { Send, MessageSquare, Mail, Bell, Plus } from "lucide-react";
 import { PageShell, StatTile } from "@/components/admin/PageShell";
 
 export const Route = createFileRoute("/notifications")({
+  loader: async () => { await new Promise((r) => setTimeout(r, 380)); return null; },
+  pendingMs: 0,
+  pendingMinMs: 400,
+  pendingComponent: () => (<CardGridSkeleton {...{ eyebrow: "Broadcast", count: 6 }} />),
   head: () => ({ meta: [{ title: "Notifications — Nexora" }] }),
   component: NotificationsPage,
 });
