@@ -16,7 +16,20 @@ const ROUTER_FILE = "src/router.tsx";
 
 // Routes that are intentionally allowed to use only the global fallback.
 // __root.tsx is the shell and never shows a pending state itself.
-const GLOBAL_FALLBACK_ALLOWLIST = new Set(["__root.tsx"]);
+const GLOBAL_FALLBACK_ALLOWLIST = new Set([
+  "__root.tsx",
+  // Settings sub-routes inherit the parent /settings layout's pendingComponent
+  // and the global defaultPendingComponent, so they don't declare their own.
+  "settings.index.tsx",
+  "settings.platform.tsx",
+  "settings.security.tsx",
+  "settings.payments.tsx",
+  "settings.sms.tsx",
+  "settings.email.tsx",
+  "settings.verification.tsx",
+  "settings.commission.tsx",
+  "settings.geo.tsx",
+]);
 
 function fail(msg) {
   console.error(`\u2717 ${msg}`);
