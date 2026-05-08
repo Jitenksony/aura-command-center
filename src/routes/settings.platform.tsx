@@ -38,7 +38,7 @@ function PlatformSettings() {
   const inputCls = "h-9 bg-white/5 border-white/10 text-white text-xs";
 
   return (
-    <>
+    <RestrictedSection perms={SECTION_PERMS["/settings/platform"]} sectionTitle="Platform">
       <SettingsCard
         icon={SettingsIcon}
         title="Platform identity"
