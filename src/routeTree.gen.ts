@@ -12,9 +12,17 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as WorkersRouteImport } from './routes/workers'
 import { Route as VerificationRouteImport } from './routes/verification'
 import { Route as UsersRouteImport } from './routes/users'
+import { Route as SupportRouteImport } from './routes/support'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as PaymentsRouteImport } from './routes/payments'
+import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as LiveJobsRouteImport } from './routes/live-jobs'
+import { Route as FraudRouteImport } from './routes/fraud'
+import { Route as DisputesRouteImport } from './routes/disputes'
 import { Route as BusinessesRouteImport } from './routes/businesses'
+import { Route as AnalyticsRouteImport } from './routes/analytics'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 
 const WorkersRoute = WorkersRouteImport.update({
@@ -32,9 +40,29 @@ const UsersRoute = UsersRouteImport.update({
   path: '/users',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SupportRoute = SupportRouteImport.update({
+  id: '/support',
+  path: '/support',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportsRoute = ReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PaymentsRoute = PaymentsRouteImport.update({
   id: '/payments',
   path: '/payments',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotificationsRoute = NotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LiveJobsRoute = LiveJobsRouteImport.update({
@@ -42,9 +70,29 @@ const LiveJobsRoute = LiveJobsRouteImport.update({
   path: '/live-jobs',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FraudRoute = FraudRouteImport.update({
+  id: '/fraud',
+  path: '/fraud',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DisputesRoute = DisputesRouteImport.update({
+  id: '/disputes',
+  path: '/disputes',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BusinessesRoute = BusinessesRouteImport.update({
   id: '/businesses',
   path: '/businesses',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AnalyticsRoute = AnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -55,18 +103,34 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/analytics': typeof AnalyticsRoute
   '/businesses': typeof BusinessesRoute
+  '/disputes': typeof DisputesRoute
+  '/fraud': typeof FraudRoute
   '/live-jobs': typeof LiveJobsRoute
+  '/notifications': typeof NotificationsRoute
   '/payments': typeof PaymentsRoute
+  '/reports': typeof ReportsRoute
+  '/settings': typeof SettingsRoute
+  '/support': typeof SupportRoute
   '/users': typeof UsersRoute
   '/verification': typeof VerificationRoute
   '/workers': typeof WorkersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/analytics': typeof AnalyticsRoute
   '/businesses': typeof BusinessesRoute
+  '/disputes': typeof DisputesRoute
+  '/fraud': typeof FraudRoute
   '/live-jobs': typeof LiveJobsRoute
+  '/notifications': typeof NotificationsRoute
   '/payments': typeof PaymentsRoute
+  '/reports': typeof ReportsRoute
+  '/settings': typeof SettingsRoute
+  '/support': typeof SupportRoute
   '/users': typeof UsersRoute
   '/verification': typeof VerificationRoute
   '/workers': typeof WorkersRoute
@@ -74,9 +138,17 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/analytics': typeof AnalyticsRoute
   '/businesses': typeof BusinessesRoute
+  '/disputes': typeof DisputesRoute
+  '/fraud': typeof FraudRoute
   '/live-jobs': typeof LiveJobsRoute
+  '/notifications': typeof NotificationsRoute
   '/payments': typeof PaymentsRoute
+  '/reports': typeof ReportsRoute
+  '/settings': typeof SettingsRoute
+  '/support': typeof SupportRoute
   '/users': typeof UsersRoute
   '/verification': typeof VerificationRoute
   '/workers': typeof WorkersRoute
@@ -85,27 +157,51 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
+    | '/analytics'
     | '/businesses'
+    | '/disputes'
+    | '/fraud'
     | '/live-jobs'
+    | '/notifications'
     | '/payments'
+    | '/reports'
+    | '/settings'
+    | '/support'
     | '/users'
     | '/verification'
     | '/workers'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin'
+    | '/analytics'
     | '/businesses'
+    | '/disputes'
+    | '/fraud'
     | '/live-jobs'
+    | '/notifications'
     | '/payments'
+    | '/reports'
+    | '/settings'
+    | '/support'
     | '/users'
     | '/verification'
     | '/workers'
   id:
     | '__root__'
     | '/'
+    | '/admin'
+    | '/analytics'
     | '/businesses'
+    | '/disputes'
+    | '/fraud'
     | '/live-jobs'
+    | '/notifications'
     | '/payments'
+    | '/reports'
+    | '/settings'
+    | '/support'
     | '/users'
     | '/verification'
     | '/workers'
@@ -113,9 +209,17 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
+  AnalyticsRoute: typeof AnalyticsRoute
   BusinessesRoute: typeof BusinessesRoute
+  DisputesRoute: typeof DisputesRoute
+  FraudRoute: typeof FraudRoute
   LiveJobsRoute: typeof LiveJobsRoute
+  NotificationsRoute: typeof NotificationsRoute
   PaymentsRoute: typeof PaymentsRoute
+  ReportsRoute: typeof ReportsRoute
+  SettingsRoute: typeof SettingsRoute
+  SupportRoute: typeof SupportRoute
   UsersRoute: typeof UsersRoute
   VerificationRoute: typeof VerificationRoute
   WorkersRoute: typeof WorkersRoute
@@ -144,11 +248,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UsersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/support': {
+      id: '/support'
+      path: '/support'
+      fullPath: '/support'
+      preLoaderRoute: typeof SupportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reports': {
+      id: '/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof ReportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/payments': {
       id: '/payments'
       path: '/payments'
       fullPath: '/payments'
       preLoaderRoute: typeof PaymentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notifications': {
+      id: '/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof NotificationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/live-jobs': {
@@ -158,11 +290,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LiveJobsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/fraud': {
+      id: '/fraud'
+      path: '/fraud'
+      fullPath: '/fraud'
+      preLoaderRoute: typeof FraudRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/disputes': {
+      id: '/disputes'
+      path: '/disputes'
+      fullPath: '/disputes'
+      preLoaderRoute: typeof DisputesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/businesses': {
       id: '/businesses'
       path: '/businesses'
       fullPath: '/businesses'
       preLoaderRoute: typeof BusinessesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/analytics': {
+      id: '/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AnalyticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -177,9 +337,17 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
+  AnalyticsRoute: AnalyticsRoute,
   BusinessesRoute: BusinessesRoute,
+  DisputesRoute: DisputesRoute,
+  FraudRoute: FraudRoute,
   LiveJobsRoute: LiveJobsRoute,
+  NotificationsRoute: NotificationsRoute,
   PaymentsRoute: PaymentsRoute,
+  ReportsRoute: ReportsRoute,
+  SettingsRoute: SettingsRoute,
+  SupportRoute: SupportRoute,
   UsersRoute: UsersRoute,
   VerificationRoute: VerificationRoute,
   WorkersRoute: WorkersRoute,
@@ -187,3 +355,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
