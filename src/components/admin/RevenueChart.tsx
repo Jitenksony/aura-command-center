@@ -8,7 +8,7 @@ const data = Array.from({ length: 24 }, (_, i) => ({
 
 export function RevenueChart() {
   return (
-    <div className="rounded-2xl glass gradient-border p-5 h-full">
+    <div className="rounded-2xl glass gradient-border p-5">
       <div className="flex items-start justify-between mb-4">
         <div>
           <h3 className="text-sm font-semibold text-white tracking-tight">Platform Revenue</h3>
