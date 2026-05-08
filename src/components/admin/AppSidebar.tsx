@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link, useRouterState } from "@tanstack/react-router";
 import {
   LayoutDashboard, Radio, Users, HardHat, Building2, ShieldCheck,
   CreditCard, Gavel, Bell, FileBarChart, BarChart3, Settings,
@@ -6,28 +7,28 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const items = [
-  { label: "Dashboard", icon: LayoutDashboard, badge: null },
-  { label: "Live Jobs", icon: Radio, badge: "128" },
-  { label: "Users", icon: Users, badge: null },
-  { label: "Workers", icon: HardHat, badge: null },
-  { label: "Businesses", icon: Building2, badge: null },
-  { label: "Verification Center", icon: ShieldCheck, badge: "24" },
-  { label: "Payments", icon: CreditCard, badge: null },
-  { label: "Disputes", icon: Gavel, badge: "7" },
-  { label: "Notifications", icon: Bell, badge: null },
-  { label: "Reports", icon: FileBarChart, badge: null },
-  { label: "Analytics", icon: BarChart3, badge: null },
-  { label: "Admin Management", icon: UserCog, badge: null },
-  { label: "Fraud Detection", icon: ShieldAlert, badge: "3" },
-  { label: "Support Tickets", icon: LifeBuoy, badge: "12" },
-  { label: "Settings", icon: Settings, badge: null },
-];
+export const NAV_ITEMS = [
+  { label: "Dashboard",           to: "/",              icon: LayoutDashboard, badge: null   },
+  { label: "Live Jobs",           to: "/live-jobs",     icon: Radio,           badge: "128" },
+  { label: "Users",               to: "/users",         icon: Users,           badge: null   },
+  { label: "Workers",             to: "/workers",       icon: HardHat,         badge: null   },
+  { label: "Businesses",          to: "/businesses",    icon: Building2,       badge: null   },
+  { label: "Verification Center", to: "/verification",  icon: ShieldCheck,     badge: "24"  },
+  { label: "Payments",            to: "/payments",      icon: CreditCard,      badge: null   },
+  { label: "Disputes",            to: "/disputes",      icon: Gavel,           badge: "7"   },
+  { label: "Notifications",       to: "/notifications", icon: Bell,            badge: null   },
+  { label: "Reports",             to: "/reports",       icon: FileBarChart,    badge: null   },
+  { label: "Analytics",           to: "/analytics",     icon: BarChart3,       badge: null   },
+  { label: "Admin Management",    to: "/admin",         icon: UserCog,         badge: null   },
+  { label: "Fraud Detection",     to: "/fraud",         icon: ShieldAlert,     badge: "3"   },
+  { label: "Support Tickets",     to: "/support",       icon: LifeBuoy,        badge: "12"  },
+  { label: "Settings",            to: "/settings",      icon: Settings,        badge: null   },
+] as const;
 
-export function AppSidebar({
-  active, onSelect,
-}: { active: string; onSelect: (s: string) => void }) {
+export function AppSidebar() {
   const [collapsed, setCollapsed] = useState(false);
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+
   return (
     <aside
       className={cn(
@@ -38,12 +39,11 @@ export function AppSidebar({
     >
       <div className="absolute inset-y-0 right-0 w-px bg-gradient-to-b from-transparent via-white/10 to-transparent" />
       <div className="flex h-full flex-col">
-        {/* Logo */}
         <div className="flex items-center justify-between px-4 h-16 border-b border-white/5">
           <div className="flex items-center gap-2.5 overflow-hidden">
             <div className="grid place-items-center h-9 w-9 rounded-xl shrink-0"
               style={{ background: "var(--gradient-primary)", boxShadow: "var(--shadow-glow)" }}>
-              <Sparkles className="h-4.5 w-4.5 text-white" size={18} />
+              <Sparkles className="text-white" size={18} />
             </div>
             {!collapsed && (
               <div className="leading-tight">
@@ -61,7 +61,6 @@ export function AppSidebar({
           </button>
         </div>
 
-        {/* Nav */}
         <nav className="flex-1 overflow-y-auto scrollbar-thin py-3 px-2">
           {!collapsed && (
             <div className="px-3 pt-2 pb-1 text-[10px] font-medium uppercase tracking-[0.18em] text-white/35">
@@ -69,18 +68,16 @@ export function AppSidebar({
             </div>
           )}
           <ul className="space-y-0.5">
-            {items.map((item) => {
-              const isActive = item.label === active;
+            {NAV_ITEMS.map((item) => {
+              const isActive = pathname === item.to;
               const Icon = item.icon;
               return (
-                <li key={item.label}>
-                  <button
-                    onClick={() => onSelect(item.label)}
+                <li key={item.to}>
+                  <Link
+                    to={item.to}
                     className={cn(
                       "group relative flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all",
-                      isActive
-                        ? "text-white"
-                        : "text-white/60 hover:text-white hover:bg-white/5",
+                      isActive ? "text-white" : "text-white/60 hover:text-white hover:bg-white/5",
                     )}
                   >
                     {isActive && (
@@ -108,14 +105,13 @@ export function AppSidebar({
                         )}
                       </>
                     )}
-                  </button>
+                  </Link>
                 </li>
               );
             })}
           </ul>
         </nav>
 
-        {/* Bottom profile */}
         <div className="border-t border-white/5 p-3">
           <div className={cn(
             "flex items-center gap-3 rounded-xl p-2 hover:bg-white/5 transition cursor-pointer",
