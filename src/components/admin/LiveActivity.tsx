@@ -1,6 +1,16 @@
 import { useEffect, useState } from "react";
 import { Briefcase, CheckCircle2, CreditCard, ShieldCheck, ShieldAlert, Gavel } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
+
+const routeFor: Record<"job" | "accept" | "payment" | "verify" | "fraud" | "dispute", string> = {
+  job: "/live-jobs",
+  accept: "/live-jobs",
+  payment: "/payments",
+  verify: "/verification",
+  fraud: "/fraud",
+  dispute: "/disputes",
+};
 
 type Kind = "job" | "accept" | "payment" | "verify" | "fraud" | "dispute";
 interface Item { id: number; kind: Kind; title: string; sub: string; ago: string; }
