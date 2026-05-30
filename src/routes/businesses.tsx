@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { CardGridSkeleton } from "@/components/admin/PageSkeletons";
 import { Building2, MapPin, TrendingUp, Mail, Phone, Clock, Shield, AlertTriangle, Ban, Eye, Wallet, Users, FileText } from "lucide-react";
 import { PageShell, StatTile } from "@/components/admin/PageShell";
@@ -18,13 +18,15 @@ export const Route = createFileRoute("/businesses")({
   component: BusinessesPage,
 });
 
-type Business = {
+export type Business = {
   name: string; industry: string; plan: string; spend: number; jobs: number; city: string; health: number;
   email?: string; phone?: string; joined?: string; contacts?: number; contracts?: number; suspended?: boolean;
   suspendReason?: string;
 };
 
-const biz: Business[] = [
+export const slugify = (n: string) => n.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+
+export const biz: Business[] = [
   { name: "TaskMate Inc.",      industry: "Logistics",   plan: "Enterprise", spend: 124800, jobs: 1820, city: "New York, NY",  health: 92, email: "ops@taskmate.io",       phone: "+1 (212) 555-0101", joined: "Jan 2020", contacts: 14, contracts: 48 },
   { name: "Northwind Catering", industry: "Hospitality", plan: "Pro",        spend: 48200,  jobs: 612,  city: "Chicago, IL",   health: 78, email: "hello@northwind.com",   phone: "+1 (312) 555-0192", joined: "Mar 2021", contacts: 6,  contracts: 12 },
   { name: "Iris Holdings",      industry: "Real Estate", plan: "Enterprise", spend: 218400, jobs: 2480, city: "Miami, FL",     health: 96, email: "mgmt@irisholdings.net", phone: "+1 (305) 555-0177", joined: "Jun 2019", contacts: 22, contracts: 64 },
@@ -182,7 +184,17 @@ function BusinessesPage() {
                 </div>
 
                 <div className="rounded-lg border border-white/5 bg-white/[0.03] p-3">
-                  <div className="text-[11px] uppercase tracking-wider text-white/40 mb-2">Recent activity</div>
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="text-[11px] uppercase tracking-wider text-white/40">Recent activity</div>
+                    <Link
+                      to="/businesses/$slug"
+                      params={{ slug: slugify(viewBiz.name) }}
+                      onClick={() => setViewBiz(null)}
+                      className="text-[11px] text-[var(--color-cyan)] hover:underline"
+                    >
+                      View all activity →
+                    </Link>
+                  </div>
                   <ul className="text-xs text-white/70 space-y-1.5">
                     <li>· Posted job #{2400 + viewBiz.jobs} · 2h ago</li>
                     <li>· Paid invoice for $4,200 · yesterday</li>
