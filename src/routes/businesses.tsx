@@ -1,5 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { CardGridSkeleton } from "@/components/admin/PageSkeletons";
+import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { Building2, MapPin, TrendingUp, Mail, Phone, Clock, Shield, AlertTriangle, Ban, Eye, Wallet, Users, FileText } from "lucide-react";
 import { PageShell, StatTile } from "@/components/admin/PageShell";
 import { useState } from "react";
@@ -10,12 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/businesses")({
-  loader: async () => { await new Promise((r) => setTimeout(r, 380)); return null; },
-  pendingMs: 0,
-  pendingMinMs: 400,
-  pendingComponent: () => (<CardGridSkeleton {...{ eyebrow: "Demand", count: 9 }} />),
-  head: () => ({ meta: [{ title: "Businesses — Nexora" }] }),
-  component: BusinessesPage,
+  component: BusinessesLayout,
 });
 
 export type Business = {
@@ -35,7 +29,11 @@ export const biz: Business[] = [
   { name: "Stratus Movers",     industry: "Moving",      plan: "Growth",     spend: 22800,  jobs: 244,  city: "Denver, CO",    health: 73, email: "move@stratus.net",      phone: "+1 (720) 555-0188", joined: "Feb 2021", contacts: 5,  contracts: 14 },
 ];
 
-function BusinessesPage() {
+function BusinessesLayout() {
+  return <Outlet />;
+}
+
+export function BusinessesPage() {
   const [businesses, setBusinesses] = useState<Business[]>(biz);
   const [viewBiz, setViewBiz] = useState<Business | null>(null);
   const [suspendBiz, setSuspendBiz] = useState<Business | null>(null);
