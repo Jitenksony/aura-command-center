@@ -1,4 +1,6 @@
 import { ShieldAlert, AlertTriangle, UserX, Eye } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { toast } from "sonner";
 
 const alerts = [
   { id: "FR-9821", title: "Multiple accounts from single device", risk: 92, type: "Account farming", loc: "Mumbai, IN" },
@@ -16,7 +18,7 @@ export function FraudPanel() {
           <span className="text-[10px] text-[var(--color-danger)] px-1.5 py-0.5 rounded-md"
             style={{ background: "oklch(0.65 0.23 27 / 0.12)" }}>3 ACTIVE</span>
         </div>
-        <button className="text-xs text-white/50 hover:text-white">Open</button>
+        <Link to="/fraud" className="text-xs text-white/50 hover:text-white">Open</Link>
       </div>
       <ul className="space-y-2">
         {alerts.map((a) => (
@@ -43,8 +45,12 @@ export function FraudPanel() {
                 </div>
               </div>
               <div className="flex flex-col gap-1.5">
-                <button className="grid place-items-center h-7 w-7 rounded-md text-white/60 hover:text-white hover:bg-white/5"><Eye className="h-3.5 w-3.5" /></button>
-                <button className="grid place-items-center h-7 w-7 rounded-md text-[var(--color-danger)] hover:bg-[oklch(0.65_0.23_27_/_0.1)]"><UserX className="h-3.5 w-3.5" /></button>
+                <Link to="/fraud" aria-label={`Inspect ${a.id}`} className="grid place-items-center h-7 w-7 rounded-md text-white/60 hover:text-white hover:bg-white/5"><Eye className="h-3.5 w-3.5" /></Link>
+                <button
+                  onClick={() => toast.success(`Account in alert ${a.id} suspended`, { description: a.title })}
+                  aria-label={`Suspend account in ${a.id}`}
+                  className="grid place-items-center h-7 w-7 rounded-md text-[var(--color-danger)] hover:bg-[oklch(0.65_0.23_27_/_0.1)]"
+                ><UserX className="h-3.5 w-3.5" /></button>
               </div>
             </div>
           </li>

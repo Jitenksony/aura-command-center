@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { LucideIcon, ArrowUpRight, ArrowDownRight } from "lucide-react";
 import { Area, AreaChart, ResponsiveContainer } from "recharts";
+import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 
 interface StatCardProps {
@@ -12,6 +13,7 @@ interface StatCardProps {
   icon: LucideIcon;
   tone?: "primary" | "cyan" | "success" | "danger" | "warning";
   data: number[];
+  to?: string;
 }
 
 const toneMap = {
@@ -38,15 +40,15 @@ function useCountUp(target: number, duration = 1200) {
   return n;
 }
 
-export function StatCard({ label, value, prefix = "", suffix = "", delta, icon: Icon, tone = "primary", data }: StatCardProps) {
+export function StatCard({ label, value, prefix = "", suffix = "", delta, icon: Icon, tone = "primary", data, to }: StatCardProps) {
   const n = useCountUp(value);
   const tones = toneMap[tone];
   const positive = delta >= 0;
   const chartData = data.map((v, i) => ({ i, v }));
   const id = `g-${label.replace(/\s/g, "")}`;
 
-  return (
-    <div className="group relative rounded-2xl glass gradient-border hover-lift overflow-hidden">
+  const body = (
+    <div className={cn("group relative rounded-2xl glass gradient-border hover-lift overflow-hidden", to && "cursor-pointer")}>
       <div className="absolute -top-16 -right-16 h-40 w-40 rounded-full opacity-20 blur-2xl pointer-events-none"
         style={{ background: tones.grad }} />
       <div className="relative p-5">
@@ -89,4 +91,7 @@ export function StatCard({ label, value, prefix = "", suffix = "", delta, icon: 
       </div>
     </div>
   );
+
+  if (to) return <Link to={to} className="block">{body}</Link>;
+  return body;
 }

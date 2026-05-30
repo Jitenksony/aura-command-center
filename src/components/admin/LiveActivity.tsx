@@ -1,6 +1,16 @@
 import { useEffect, useState } from "react";
 import { Briefcase, CheckCircle2, CreditCard, ShieldCheck, ShieldAlert, Gavel } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
+
+const routeFor: Record<"job" | "accept" | "payment" | "verify" | "fraud" | "dispute", string> = {
+  job: "/live-jobs",
+  accept: "/live-jobs",
+  payment: "/payments",
+  verify: "/verification",
+  fraud: "/fraud",
+  dispute: "/disputes",
+};
 
 type Kind = "job" | "accept" | "payment" | "verify" | "fraud" | "dispute";
 interface Item { id: number; kind: Kind; title: string; sub: string; ago: string; }
@@ -60,26 +70,31 @@ export function LiveActivity() {
           <h3 className="text-sm font-semibold text-white tracking-tight">Live Activity</h3>
           <span className="text-[10px] text-white/40 px-1.5 py-0.5 rounded-md bg-white/5">REAL-TIME</span>
         </div>
-        <button className="text-xs text-white/50 hover:text-white">View all</button>
+        <Link to="/notifications" className="text-xs text-white/50 hover:text-white">View all</Link>
       </div>
       <div className="flex-1 overflow-y-auto scrollbar-thin px-2 py-2">
         <ul className="space-y-1">
           {items.map((it, idx) => {
             const m = meta[it.kind]; const Icon = m.icon;
             return (
-              <li key={it.id} className={cn("flex items-center gap-3 rounded-xl p-2.5 hover:bg-white/[0.04] transition", idx === 0 && "animate-float-up")}>
-                <div className="grid place-items-center h-9 w-9 rounded-lg shrink-0" style={{ background: m.bg }}>
-                  <Icon className="h-4 w-4" style={{ color: m.color }} />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium text-white truncate">{it.title}</span>
-                    <span className="text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded"
-                      style={{ background: m.bg, color: m.color }}>{m.label}</span>
+              <li key={it.id} className={cn(idx === 0 && "animate-float-up")}>
+                <Link
+                  to={routeFor[it.kind]}
+                  className="flex items-center gap-3 rounded-xl p-2.5 hover:bg-white/[0.04] transition"
+                >
+                  <div className="grid place-items-center h-9 w-9 rounded-lg shrink-0" style={{ background: m.bg }}>
+                    <Icon className="h-4 w-4" style={{ color: m.color }} />
                   </div>
-                  <div className="text-[11px] text-white/45 truncate mt-0.5">{it.sub}</div>
-                </div>
-                <div className="text-[10px] text-white/40 tabular-nums shrink-0">{it.ago}</div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-medium text-white truncate">{it.title}</span>
+                      <span className="text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded"
+                        style={{ background: m.bg, color: m.color }}>{m.label}</span>
+                    </div>
+                    <div className="text-[11px] text-white/45 truncate mt-0.5">{it.sub}</div>
+                  </div>
+                  <div className="text-[10px] text-white/40 tabular-nums shrink-0">{it.ago}</div>
+                </Link>
               </li>
             );
           })}
