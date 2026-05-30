@@ -1,5 +1,4 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { TableSkeleton } from "@/components/admin/PageSkeletons";
+import { createFileRoute, Link, Outlet, useNavigate } from "@tanstack/react-router";
 import { Search, UserPlus, Download, MoreHorizontal, Mail, Ban, ShieldCheck, Eye } from "lucide-react";
 import { PageShell, StatTile } from "@/components/admin/PageShell";
 import { useMemo, useState } from "react";
@@ -30,12 +29,7 @@ import {
 } from "@/components/ui/select";
 
 export const Route = createFileRoute("/users")({
-  loader: async () => { await new Promise((r) => setTimeout(r, 380)); return null; },
-  pendingMs: 0,
-  pendingMinMs: 400,
-  pendingComponent: () => (<TableSkeleton {...{ eyebrow: "Identity", stats: 4, rows: 9, cols: 7 }} />),
-  head: () => ({ meta: [{ title: "Users — Nexora" }] }),
-  component: UsersPage,
+  component: UsersLayout,
 });
 
 export type User = {
@@ -70,7 +64,11 @@ const statusStyle: Record<string, string> = {
 const TABS = ["All", "Customers", "Workers", "Suspended"] as const;
 type Tab = typeof TABS[number];
 
-function UsersPage() {
+function UsersLayout() {
+  return <Outlet />;
+}
+
+export function UsersPage() {
   const navigate = useNavigate();
   const [users, setUsers] = useState<User[]>(initialUsers);
   const [tab, setTab] = useState<Tab>("All");
