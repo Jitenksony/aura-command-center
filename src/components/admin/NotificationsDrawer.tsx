@@ -225,7 +225,7 @@ export function NotificationsDrawer({
                           style={{ background: sev.bg, color: sev.fg }}>{M.label}</span>
                       </div>
                       <div className="text-[11px] text-white/50 mt-0.5 line-clamp-2">{n.body}</div>
-                      <div className="text-[10px] text-white/35 mt-1 tabular-nums">{timeAgo(n.ts)}</div>
+                      <div className="text-[10px] text-white/35 mt-1 tabular-nums" suppressHydrationWarning>{timeAgo(n.ts)}</div>
                     </div>
                     <div className="flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition">
                       {!n.read && (
