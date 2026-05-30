@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { CardGridSkeleton } from "@/components/admin/PageSkeletons";
 import { Building2, MapPin, TrendingUp, Mail, Phone, Clock, Shield, AlertTriangle, Ban, Eye, Wallet, Users, FileText } from "lucide-react";
 import { PageShell, StatTile } from "@/components/admin/PageShell";
