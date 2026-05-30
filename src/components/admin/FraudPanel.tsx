@@ -45,8 +45,12 @@ export function FraudPanel() {
                 </div>
               </div>
               <div className="flex flex-col gap-1.5">
-                <button className="grid place-items-center h-7 w-7 rounded-md text-white/60 hover:text-white hover:bg-white/5"><Eye className="h-3.5 w-3.5" /></button>
-                <button className="grid place-items-center h-7 w-7 rounded-md text-[var(--color-danger)] hover:bg-[oklch(0.65_0.23_27_/_0.1)]"><UserX className="h-3.5 w-3.5" /></button>
+                <Link to="/fraud" aria-label={`Inspect ${a.id}`} className="grid place-items-center h-7 w-7 rounded-md text-white/60 hover:text-white hover:bg-white/5"><Eye className="h-3.5 w-3.5" /></Link>
+                <button
+                  onClick={() => toast.success(`Account in alert ${a.id} suspended`, { description: a.title })}
+                  aria-label={`Suspend account in ${a.id}`}
+                  className="grid place-items-center h-7 w-7 rounded-md text-[var(--color-danger)] hover:bg-[oklch(0.65_0.23_27_/_0.1)]"
+                ><UserX className="h-3.5 w-3.5" /></button>
               </div>
             </div>
           </li>
