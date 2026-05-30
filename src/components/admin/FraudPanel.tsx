@@ -18,7 +18,7 @@ export function FraudPanel() {
           <span className="text-[10px] text-[var(--color-danger)] px-1.5 py-0.5 rounded-md"
             style={{ background: "oklch(0.65 0.23 27 / 0.12)" }}>3 ACTIVE</span>
         </div>
-        <button className="text-xs text-white/50 hover:text-white">Open</button>
+        <Link to="/fraud" className="text-xs text-white/50 hover:text-white">Open</Link>
       </div>
       <ul className="space-y-2">
         {alerts.map((a) => (
