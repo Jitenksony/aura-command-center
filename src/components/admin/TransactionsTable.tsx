@@ -1,4 +1,6 @@
 import { ArrowUpRight, Download } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { toast } from "sonner";
 
 const tx = [
   { id: "TX-09281", user: "Sofia Martinez",   amount: 480,  status: "Released", method: "Stripe", time: "2m ago" },
