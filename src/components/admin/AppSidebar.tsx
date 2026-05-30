@@ -41,18 +41,18 @@ export function AppSidebar() {
       <div className="absolute inset-y-0 right-0 w-px bg-gradient-to-b from-transparent via-white/10 to-transparent" />
       <div className="flex h-full flex-col">
         <div className="flex items-center justify-between px-4 h-16 border-b border-white/5">
-          <div className="flex items-center gap-2.5 overflow-hidden">
-            <div className="grid place-items-center h-9 w-9 rounded-xl shrink-0"
+          <Link to="/" className="flex items-center gap-2.5 overflow-hidden">
+            <div className="grid place-items-center h-9 w-9 rounded-xl shrink-0 p-1.5"
               style={{ background: "var(--gradient-primary)", boxShadow: "var(--shadow-glow)" }}>
-              <Sparkles className="text-white" size={18} />
+              <img src={logo} alt="Ping" className="h-full w-full object-contain" />
             </div>
             {!collapsed && (
               <div className="leading-tight">
-                <div className="text-[15px] font-semibold tracking-tight text-white">Nexora</div>
-                <div className="text-[10px] uppercase tracking-[0.18em] text-white/40">Super Admin</div>
+                <img src={logo} alt="Ping" className="h-5 w-auto" />
+                <div className="text-[10px] uppercase tracking-[0.18em] text-white/40 mt-1">Super Admin</div>
               </div>
             )}
-          </div>
+          </Link>
           <button
             onClick={() => setCollapsed((v) => !v)}
             className="grid place-items-center h-7 w-7 rounded-lg text-white/60 hover:text-white hover:bg-white/5 transition"
