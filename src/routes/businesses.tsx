@@ -184,7 +184,17 @@ function BusinessesPage() {
                 </div>
 
                 <div className="rounded-lg border border-white/5 bg-white/[0.03] p-3">
-                  <div className="text-[11px] uppercase tracking-wider text-white/40 mb-2">Recent activity</div>
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="text-[11px] uppercase tracking-wider text-white/40">Recent activity</div>
+                    <Link
+                      to="/businesses/$slug"
+                      params={{ slug: slugify(viewBiz.name) }}
+                      onClick={() => setViewBiz(null)}
+                      className="text-[11px] text-[var(--color-cyan)] hover:underline"
+                    >
+                      View all activity →
+                    </Link>
+                  </div>
                   <ul className="text-xs text-white/70 space-y-1.5">
                     <li>· Posted job #{2400 + viewBiz.jobs} · 2h ago</li>
                     <li>· Paid invoice for $4,200 · yesterday</li>
