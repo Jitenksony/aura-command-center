@@ -1,4 +1,6 @@
 import { ShieldAlert, AlertTriangle, UserX, Eye } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { toast } from "sonner";
 
 const alerts = [
   { id: "FR-9821", title: "Multiple accounts from single device", risk: 92, type: "Account farming", loc: "Mumbai, IN" },
