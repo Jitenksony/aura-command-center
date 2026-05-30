@@ -33,6 +33,7 @@ import { Route as SettingsPaymentsRouteImport } from './routes/settings.payments
 import { Route as SettingsGeoRouteImport } from './routes/settings.geo'
 import { Route as SettingsEmailRouteImport } from './routes/settings.email'
 import { Route as SettingsCommissionRouteImport } from './routes/settings.commission'
+import { Route as BusinessesSlugRouteImport } from './routes/businesses.$slug'
 
 const WorkersRoute = WorkersRouteImport.update({
   id: '/workers',
@@ -154,12 +155,17 @@ const SettingsCommissionRoute = SettingsCommissionRouteImport.update({
   path: '/commission',
   getParentRoute: () => SettingsRoute,
 } as any)
+const BusinessesSlugRoute = BusinessesSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => BusinessesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/analytics': typeof AnalyticsRoute
-  '/businesses': typeof BusinessesRoute
+  '/businesses': typeof BusinessesRouteWithChildren
   '/disputes': typeof DisputesRoute
   '/fraud': typeof FraudRoute
   '/live-jobs': typeof LiveJobsRoute
@@ -171,6 +177,7 @@ export interface FileRoutesByFullPath {
   '/users': typeof UsersRoute
   '/verification': typeof VerificationRoute
   '/workers': typeof WorkersRoute
+  '/businesses/$slug': typeof BusinessesSlugRoute
   '/settings/commission': typeof SettingsCommissionRoute
   '/settings/email': typeof SettingsEmailRoute
   '/settings/geo': typeof SettingsGeoRoute
@@ -185,7 +192,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/analytics': typeof AnalyticsRoute
-  '/businesses': typeof BusinessesRoute
+  '/businesses': typeof BusinessesRouteWithChildren
   '/disputes': typeof DisputesRoute
   '/fraud': typeof FraudRoute
   '/live-jobs': typeof LiveJobsRoute
@@ -196,6 +203,7 @@ export interface FileRoutesByTo {
   '/users': typeof UsersRoute
   '/verification': typeof VerificationRoute
   '/workers': typeof WorkersRoute
+  '/businesses/$slug': typeof BusinessesSlugRoute
   '/settings/commission': typeof SettingsCommissionRoute
   '/settings/email': typeof SettingsEmailRoute
   '/settings/geo': typeof SettingsGeoRoute
@@ -211,7 +219,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/analytics': typeof AnalyticsRoute
-  '/businesses': typeof BusinessesRoute
+  '/businesses': typeof BusinessesRouteWithChildren
   '/disputes': typeof DisputesRoute
   '/fraud': typeof FraudRoute
   '/live-jobs': typeof LiveJobsRoute
@@ -223,6 +231,7 @@ export interface FileRoutesById {
   '/users': typeof UsersRoute
   '/verification': typeof VerificationRoute
   '/workers': typeof WorkersRoute
+  '/businesses/$slug': typeof BusinessesSlugRoute
   '/settings/commission': typeof SettingsCommissionRoute
   '/settings/email': typeof SettingsEmailRoute
   '/settings/geo': typeof SettingsGeoRoute
@@ -251,6 +260,7 @@ export interface FileRouteTypes {
     | '/users'
     | '/verification'
     | '/workers'
+    | '/businesses/$slug'
     | '/settings/commission'
     | '/settings/email'
     | '/settings/geo'
@@ -276,6 +286,7 @@ export interface FileRouteTypes {
     | '/users'
     | '/verification'
     | '/workers'
+    | '/businesses/$slug'
     | '/settings/commission'
     | '/settings/email'
     | '/settings/geo'
@@ -302,6 +313,7 @@ export interface FileRouteTypes {
     | '/users'
     | '/verification'
     | '/workers'
+    | '/businesses/$slug'
     | '/settings/commission'
     | '/settings/email'
     | '/settings/geo'
@@ -317,7 +329,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
   AnalyticsRoute: typeof AnalyticsRoute
-  BusinessesRoute: typeof BusinessesRoute
+  BusinessesRoute: typeof BusinessesRouteWithChildren
   DisputesRoute: typeof DisputesRoute
   FraudRoute: typeof FraudRoute
   LiveJobsRoute: typeof LiveJobsRoute
@@ -501,8 +513,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsCommissionRouteImport
       parentRoute: typeof SettingsRoute
     }
+    '/businesses/$slug': {
+      id: '/businesses/$slug'
+      path: '/$slug'
+      fullPath: '/businesses/$slug'
+      preLoaderRoute: typeof BusinessesSlugRouteImport
+      parentRoute: typeof BusinessesRoute
+    }
   }
 }
+
+interface BusinessesRouteChildren {
+  BusinessesSlugRoute: typeof BusinessesSlugRoute
+}
+
+const BusinessesRouteChildren: BusinessesRouteChildren = {
+  BusinessesSlugRoute: BusinessesSlugRoute,
+}
+
+const BusinessesRouteWithChildren = BusinessesRoute._addFileChildren(
+  BusinessesRouteChildren,
+)
 
 interface SettingsRouteChildren {
   SettingsCommissionRoute: typeof SettingsCommissionRoute
@@ -536,7 +567,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
   AnalyticsRoute: AnalyticsRoute,
-  BusinessesRoute: BusinessesRoute,
+  BusinessesRoute: BusinessesRouteWithChildren,
   DisputesRoute: DisputesRoute,
   FraudRoute: FraudRoute,
   LiveJobsRoute: LiveJobsRoute,
