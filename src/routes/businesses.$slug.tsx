@@ -82,10 +82,11 @@ function BusinessDetailPage() {
       }
     >
       {/* Headline stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
         <StatTile label="Lifetime spend" value={`$${b.spend.toLocaleString()}`} accent="var(--color-success)" />
         <StatTile label="Jobs posted" value={b.jobs.toLocaleString()} accent="var(--color-primary)" />
         <StatTile label="Active contracts" value={String(b.contracts ?? 0)} accent="var(--color-cyan)" />
+        <StatTile label="Tickets raised" value={String(Math.max(2, Math.round(b.jobs / 120)))} accent="var(--color-warning)" />
         <StatTile label="Health score" value={`${b.health}/100`} accent={b.health > 80 ? "var(--color-success)" : b.health > 60 ? "var(--color-warning)" : "var(--color-danger)"} />
       </div>
 
