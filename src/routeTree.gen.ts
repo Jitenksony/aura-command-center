@@ -25,6 +25,7 @@ import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SettingsIndexRouteImport } from './routes/settings.index'
+import { Route as UsersSlugRouteImport } from './routes/users.$slug'
 import { Route as SettingsVerificationRouteImport } from './routes/settings.verification'
 import { Route as SettingsSmsRouteImport } from './routes/settings.sms'
 import { Route as SettingsSecurityRouteImport } from './routes/settings.security'
@@ -115,6 +116,11 @@ const SettingsIndexRoute = SettingsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => SettingsRoute,
 } as any)
+const UsersSlugRoute = UsersSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => UsersRoute,
+} as any)
 const SettingsVerificationRoute = SettingsVerificationRouteImport.update({
   id: '/verification',
   path: '/verification',
@@ -174,7 +180,7 @@ export interface FileRoutesByFullPath {
   '/reports': typeof ReportsRoute
   '/settings': typeof SettingsRouteWithChildren
   '/support': typeof SupportRoute
-  '/users': typeof UsersRoute
+  '/users': typeof UsersRouteWithChildren
   '/verification': typeof VerificationRoute
   '/workers': typeof WorkersRoute
   '/businesses/$slug': typeof BusinessesSlugRoute
@@ -186,6 +192,7 @@ export interface FileRoutesByFullPath {
   '/settings/security': typeof SettingsSecurityRoute
   '/settings/sms': typeof SettingsSmsRoute
   '/settings/verification': typeof SettingsVerificationRoute
+  '/users/$slug': typeof UsersSlugRoute
   '/settings/': typeof SettingsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -200,7 +207,7 @@ export interface FileRoutesByTo {
   '/payments': typeof PaymentsRoute
   '/reports': typeof ReportsRoute
   '/support': typeof SupportRoute
-  '/users': typeof UsersRoute
+  '/users': typeof UsersRouteWithChildren
   '/verification': typeof VerificationRoute
   '/workers': typeof WorkersRoute
   '/businesses/$slug': typeof BusinessesSlugRoute
@@ -212,6 +219,7 @@ export interface FileRoutesByTo {
   '/settings/security': typeof SettingsSecurityRoute
   '/settings/sms': typeof SettingsSmsRoute
   '/settings/verification': typeof SettingsVerificationRoute
+  '/users/$slug': typeof UsersSlugRoute
   '/settings': typeof SettingsIndexRoute
 }
 export interface FileRoutesById {
@@ -228,7 +236,7 @@ export interface FileRoutesById {
   '/reports': typeof ReportsRoute
   '/settings': typeof SettingsRouteWithChildren
   '/support': typeof SupportRoute
-  '/users': typeof UsersRoute
+  '/users': typeof UsersRouteWithChildren
   '/verification': typeof VerificationRoute
   '/workers': typeof WorkersRoute
   '/businesses/$slug': typeof BusinessesSlugRoute
@@ -240,6 +248,7 @@ export interface FileRoutesById {
   '/settings/security': typeof SettingsSecurityRoute
   '/settings/sms': typeof SettingsSmsRoute
   '/settings/verification': typeof SettingsVerificationRoute
+  '/users/$slug': typeof UsersSlugRoute
   '/settings/': typeof SettingsIndexRoute
 }
 export interface FileRouteTypes {
@@ -269,6 +278,7 @@ export interface FileRouteTypes {
     | '/settings/security'
     | '/settings/sms'
     | '/settings/verification'
+    | '/users/$slug'
     | '/settings/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -295,6 +305,7 @@ export interface FileRouteTypes {
     | '/settings/security'
     | '/settings/sms'
     | '/settings/verification'
+    | '/users/$slug'
     | '/settings'
   id:
     | '__root__'
@@ -322,6 +333,7 @@ export interface FileRouteTypes {
     | '/settings/security'
     | '/settings/sms'
     | '/settings/verification'
+    | '/users/$slug'
     | '/settings/'
   fileRoutesById: FileRoutesById
 }
@@ -338,7 +350,7 @@ export interface RootRouteChildren {
   ReportsRoute: typeof ReportsRoute
   SettingsRoute: typeof SettingsRouteWithChildren
   SupportRoute: typeof SupportRoute
-  UsersRoute: typeof UsersRoute
+  UsersRoute: typeof UsersRouteWithChildren
   VerificationRoute: typeof VerificationRoute
   WorkersRoute: typeof WorkersRoute
 }
@@ -457,6 +469,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsIndexRouteImport
       parentRoute: typeof SettingsRoute
     }
+    '/users/$slug': {
+      id: '/users/$slug'
+      path: '/$slug'
+      fullPath: '/users/$slug'
+      preLoaderRoute: typeof UsersSlugRouteImport
+      parentRoute: typeof UsersRoute
+    }
     '/settings/verification': {
       id: '/settings/verification'
       path: '/verification'
@@ -563,6 +582,16 @@ const SettingsRouteWithChildren = SettingsRoute._addFileChildren(
   SettingsRouteChildren,
 )
 
+interface UsersRouteChildren {
+  UsersSlugRoute: typeof UsersSlugRoute
+}
+
+const UsersRouteChildren: UsersRouteChildren = {
+  UsersSlugRoute: UsersSlugRoute,
+}
+
+const UsersRouteWithChildren = UsersRoute._addFileChildren(UsersRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
@@ -576,7 +605,7 @@ const rootRouteChildren: RootRouteChildren = {
   ReportsRoute: ReportsRoute,
   SettingsRoute: SettingsRouteWithChildren,
   SupportRoute: SupportRoute,
-  UsersRoute: UsersRoute,
+  UsersRoute: UsersRouteWithChildren,
   VerificationRoute: VerificationRoute,
   WorkersRoute: WorkersRoute,
 }
