@@ -3,9 +3,10 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import {
   LayoutDashboard, Radio, Users, HardHat, Building2, ShieldCheck,
   CreditCard, Gavel, Bell, FileBarChart, BarChart3, Settings,
-  UserCog, ShieldAlert, LifeBuoy, ChevronLeft, LogOut, Sparkles,
+  UserCog, ShieldAlert, LifeBuoy, ChevronLeft, LogOut,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import logo from "@/assets/logo.png";
 
 export const NAV_ITEMS = [
   { label: "Dashboard",           to: "/",              icon: LayoutDashboard, badge: null   },
