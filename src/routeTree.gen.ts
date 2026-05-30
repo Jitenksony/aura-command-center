@@ -24,7 +24,9 @@ import { Route as BusinessesRouteImport } from './routes/businesses'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as UsersIndexRouteImport } from './routes/users.index'
 import { Route as SettingsIndexRouteImport } from './routes/settings.index'
+import { Route as BusinessesIndexRouteImport } from './routes/businesses.index'
 import { Route as UsersSlugRouteImport } from './routes/users.$slug'
 import { Route as SettingsVerificationRouteImport } from './routes/settings.verification'
 import { Route as SettingsSmsRouteImport } from './routes/settings.sms'
@@ -111,10 +113,20 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UsersIndexRoute = UsersIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => UsersRoute,
+} as any)
 const SettingsIndexRoute = SettingsIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => SettingsRoute,
+} as any)
+const BusinessesIndexRoute = BusinessesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => BusinessesRoute,
 } as any)
 const UsersSlugRoute = UsersSlugRouteImport.update({
   id: '/$slug',
@@ -193,13 +205,14 @@ export interface FileRoutesByFullPath {
   '/settings/sms': typeof SettingsSmsRoute
   '/settings/verification': typeof SettingsVerificationRoute
   '/users/$slug': typeof UsersSlugRoute
+  '/businesses/': typeof BusinessesIndexRoute
   '/settings/': typeof SettingsIndexRoute
+  '/users/': typeof UsersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/analytics': typeof AnalyticsRoute
-  '/businesses': typeof BusinessesRouteWithChildren
   '/disputes': typeof DisputesRoute
   '/fraud': typeof FraudRoute
   '/live-jobs': typeof LiveJobsRoute
@@ -207,7 +220,6 @@ export interface FileRoutesByTo {
   '/payments': typeof PaymentsRoute
   '/reports': typeof ReportsRoute
   '/support': typeof SupportRoute
-  '/users': typeof UsersRouteWithChildren
   '/verification': typeof VerificationRoute
   '/workers': typeof WorkersRoute
   '/businesses/$slug': typeof BusinessesSlugRoute
@@ -220,7 +232,9 @@ export interface FileRoutesByTo {
   '/settings/sms': typeof SettingsSmsRoute
   '/settings/verification': typeof SettingsVerificationRoute
   '/users/$slug': typeof UsersSlugRoute
+  '/businesses': typeof BusinessesIndexRoute
   '/settings': typeof SettingsIndexRoute
+  '/users': typeof UsersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -249,7 +263,9 @@ export interface FileRoutesById {
   '/settings/sms': typeof SettingsSmsRoute
   '/settings/verification': typeof SettingsVerificationRoute
   '/users/$slug': typeof UsersSlugRoute
+  '/businesses/': typeof BusinessesIndexRoute
   '/settings/': typeof SettingsIndexRoute
+  '/users/': typeof UsersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -279,13 +295,14 @@ export interface FileRouteTypes {
     | '/settings/sms'
     | '/settings/verification'
     | '/users/$slug'
+    | '/businesses/'
     | '/settings/'
+    | '/users/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/admin'
     | '/analytics'
-    | '/businesses'
     | '/disputes'
     | '/fraud'
     | '/live-jobs'
@@ -293,7 +310,6 @@ export interface FileRouteTypes {
     | '/payments'
     | '/reports'
     | '/support'
-    | '/users'
     | '/verification'
     | '/workers'
     | '/businesses/$slug'
@@ -306,7 +322,9 @@ export interface FileRouteTypes {
     | '/settings/sms'
     | '/settings/verification'
     | '/users/$slug'
+    | '/businesses'
     | '/settings'
+    | '/users'
   id:
     | '__root__'
     | '/'
@@ -334,7 +352,9 @@ export interface FileRouteTypes {
     | '/settings/sms'
     | '/settings/verification'
     | '/users/$slug'
+    | '/businesses/'
     | '/settings/'
+    | '/users/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -462,12 +482,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/users/': {
+      id: '/users/'
+      path: '/'
+      fullPath: '/users/'
+      preLoaderRoute: typeof UsersIndexRouteImport
+      parentRoute: typeof UsersRoute
+    }
     '/settings/': {
       id: '/settings/'
       path: '/'
       fullPath: '/settings/'
       preLoaderRoute: typeof SettingsIndexRouteImport
       parentRoute: typeof SettingsRoute
+    }
+    '/businesses/': {
+      id: '/businesses/'
+      path: '/'
+      fullPath: '/businesses/'
+      preLoaderRoute: typeof BusinessesIndexRouteImport
+      parentRoute: typeof BusinessesRoute
     }
     '/users/$slug': {
       id: '/users/$slug'
@@ -544,10 +578,12 @@ declare module '@tanstack/react-router' {
 
 interface BusinessesRouteChildren {
   BusinessesSlugRoute: typeof BusinessesSlugRoute
+  BusinessesIndexRoute: typeof BusinessesIndexRoute
 }
 
 const BusinessesRouteChildren: BusinessesRouteChildren = {
   BusinessesSlugRoute: BusinessesSlugRoute,
+  BusinessesIndexRoute: BusinessesIndexRoute,
 }
 
 const BusinessesRouteWithChildren = BusinessesRoute._addFileChildren(
@@ -584,10 +620,12 @@ const SettingsRouteWithChildren = SettingsRoute._addFileChildren(
 
 interface UsersRouteChildren {
   UsersSlugRoute: typeof UsersSlugRoute
+  UsersIndexRoute: typeof UsersIndexRoute
 }
 
 const UsersRouteChildren: UsersRouteChildren = {
   UsersSlugRoute: UsersSlugRoute,
+  UsersIndexRoute: UsersIndexRoute,
 }
 
 const UsersRouteWithChildren = UsersRoute._addFileChildren(UsersRouteChildren)
