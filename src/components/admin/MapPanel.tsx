@@ -26,10 +26,30 @@ const colors: Record<Pin["type"], string> = {
 
 export function MapPanel() {
   const [tick, setTick] = useState(0);
+  const [zoom, setZoom] = useState(1);
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [activeLayers, setActiveLayers] = useState<Record<Pin["type"], boolean>>({
+    worker: true, job: true, business: true, emergency: true,
+  });
+  const [layersOpen, setLayersOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const t = setInterval(() => setTick((v) => v + 1), 2200);
     return () => clearInterval(t);
   }, []);
+
+  const zoomIn = () => setZoom((z) => Math.min(3, +(z + 0.25).toFixed(2)));
+  const zoomOut = () => setZoom((z) => Math.max(0.5, +(z - 0.25).toFixed(2)));
+  const recenter = () => { setPan({ x: 0, y: 0 }); setZoom(1); toast("Map recentered"); };
+  const toggleFullscreen = () => {
+    const el = containerRef.current;
+    if (!el) return;
+    if (document.fullscreenElement) document.exitFullscreen();
+    else el.requestFullscreen?.().catch(() => toast.error("Fullscreen not available"));
+  };
+  const toggleLayer = (k: Pin["type"]) =>
+    setActiveLayers((p) => ({ ...p, [k]: !p[k] }));
 
   return (
     <div className="relative rounded-2xl glass gradient-border overflow-hidden h-[460px]">
