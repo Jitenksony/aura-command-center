@@ -4,6 +4,7 @@ import { biz, slugify, type Business } from "./businesses";
 import {
   ArrowLeft, Mail, Phone, Clock, Shield, Users, FileText, Wallet,
   CheckCircle2, AlertCircle, Briefcase, CreditCard, Activity, Building2, MapPin,
+  LifeBuoy, Banknote,
 } from "lucide-react";
 
 export const Route = createFileRoute("/businesses/$slug")({
@@ -81,10 +82,11 @@ function BusinessDetailPage() {
       }
     >
       {/* Headline stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
         <StatTile label="Lifetime spend" value={`$${b.spend.toLocaleString()}`} accent="var(--color-success)" />
         <StatTile label="Jobs posted" value={b.jobs.toLocaleString()} accent="var(--color-primary)" />
         <StatTile label="Active contracts" value={String(b.contracts ?? 0)} accent="var(--color-cyan)" />
+        <StatTile label="Tickets raised" value={String(Math.max(2, Math.round(b.jobs / 120)))} accent="var(--color-warning)" />
         <StatTile label="Health score" value={`${b.health}/100`} accent={b.health > 80 ? "var(--color-success)" : b.health > 60 ? "var(--color-warning)" : "var(--color-danger)"} />
       </div>
 
@@ -115,6 +117,52 @@ function BusinessDetailPage() {
                 </li>
               ))}
             </ul>
+          </Panel>
+
+          <Panel title="Payout method" icon={<Banknote className="h-4 w-4 text-[var(--color-success)]" />}>
+            <div className="rounded-lg border border-white/5 bg-white/[0.03] p-3 space-y-1.5">
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-white/55">Primary</span>
+                <span className="text-[10px] px-2 py-0.5 rounded text-[var(--color-success)] bg-[color:oklch(0.74_0.15_150/0.12)]">Verified</span>
+              </div>
+              <div className="text-sm font-semibold text-white">ACH · Chase Business ••4421</div>
+              <div className="text-[11px] text-white/45">Routing 021000021 · USD · Net-30 terms</div>
+            </div>
+            <div className="mt-2 rounded-lg border border-white/5 bg-white/[0.03] p-3 space-y-1.5">
+              <div className="text-xs text-white/55">Backup</div>
+              <div className="text-sm text-white">Wire · Mercury ••7720</div>
+              <div className="text-[11px] text-white/45">Auto-recharge $5,000 threshold</div>
+            </div>
+            <KV icon={<Wallet className="h-3.5 w-3.5" />} label="Last payout" value={`$${(b.spend * 0.08).toLocaleString(undefined,{maximumFractionDigits:0})} · 6 days ago`} />
+            <KV icon={<CreditCard className="h-3.5 w-3.5" />} label="Lifetime payouts" value={`$${b.spend.toLocaleString()}`} />
+          </Panel>
+
+          <Panel title="Support tickets" icon={<LifeBuoy className="h-4 w-4 text-[var(--color-warning)]" />}>
+            {(() => {
+              const tickets = [
+                { id: `T-${4100 + b.jobs}`, subject: "Invoice dispute on INV-9601", status: "Resolved", when: "2w ago" },
+                { id: `T-${4080 + b.jobs}`, subject: "Update billing email address", status: "Resolved", when: "1mo ago" },
+                { id: `T-${4055 + b.jobs}`, subject: "Provider no-show on J-2398",   status: "Open",     when: "3 days ago" },
+                { id: `T-${4012 + b.jobs}`, subject: "Increase auto-recharge cap",   status: "Pending",  when: "5 days ago" },
+              ];
+              return (
+                <ul className="space-y-2">
+                  {tickets.map((t) => (
+                    <li key={t.id} className="flex items-start justify-between gap-2 text-xs border-t border-white/5 first:border-0 pt-2 first:pt-0">
+                      <div className="min-w-0">
+                        <div className="text-white truncate">{t.subject}</div>
+                        <div className="text-[11px] text-white/40 font-mono">{t.id} · {t.when}</div>
+                      </div>
+                      <span className={`text-[10px] px-2 py-0.5 rounded shrink-0 ${
+                        t.status === "Resolved" ? "text-[var(--color-success)] bg-[color:oklch(0.74_0.15_150/0.12)]" :
+                        t.status === "Open" ? "text-[var(--color-danger)] bg-[color:oklch(0.65_0.22_25/0.12)]" :
+                        "text-[var(--color-warning)] bg-[color:oklch(0.78_0.14_85/0.12)]"
+                      }`}>{t.status}</span>
+                    </li>
+                  ))}
+                </ul>
+              );
+            })()}
           </Panel>
         </div>
 
