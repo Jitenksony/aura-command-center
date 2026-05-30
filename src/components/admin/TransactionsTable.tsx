@@ -20,6 +20,20 @@ const statusStyle: Record<string, string> = {
 };
 
 export function TransactionsTable() {
+  const handleExport = () => {
+    const headers = ["id", "user", "amount", "status", "method", "time"];
+    const rows = tx.map((t) => [t.id, t.user, t.amount, t.status, t.method, t.time].join(","));
+    const csv = [headers.join(","), ...rows].join("\n");
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `transactions-${Date.now()}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success("Transactions exported");
+  };
+
   return (
     <div className="rounded-2xl glass gradient-border overflow-hidden">
       <div className="flex items-center justify-between px-5 py-4 border-b border-white/5">
@@ -28,13 +42,19 @@ export function TransactionsTable() {
           <p className="text-[11px] text-white/45 mt-0.5">Escrow · Payouts · Refunds</p>
         </div>
         <div className="flex items-center gap-2">
-          <button className="inline-flex items-center gap-1.5 text-xs text-white/70 hover:text-white px-3 h-8 rounded-lg border border-white/10 hover:bg-white/5">
+          <button
+            onClick={handleExport}
+            className="inline-flex items-center gap-1.5 text-xs text-white/70 hover:text-white px-3 h-8 rounded-lg border border-white/10 hover:bg-white/5"
+          >
             <Download className="h-3.5 w-3.5" /> Export
           </button>
-          <button className="inline-flex items-center gap-1.5 text-xs text-white px-3 h-8 rounded-lg"
-            style={{ background: "var(--gradient-primary)" }}>
+          <Link
+            to="/payments"
+            className="inline-flex items-center gap-1.5 text-xs text-white px-3 h-8 rounded-lg"
+            style={{ background: "var(--gradient-primary)" }}
+          >
             View all <ArrowUpRight className="h-3.5 w-3.5" />
-          </button>
+          </Link>
         </div>
       </div>
       <div className="overflow-x-auto">
