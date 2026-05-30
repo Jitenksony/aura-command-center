@@ -24,7 +24,9 @@ type Business = {
   suspendReason?: string;
 };
 
-const biz: Business[] = [
+export const slugify = (n: string) => n.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+
+export const biz: Business[] = [
   { name: "TaskMate Inc.",      industry: "Logistics",   plan: "Enterprise", spend: 124800, jobs: 1820, city: "New York, NY",  health: 92, email: "ops@taskmate.io",       phone: "+1 (212) 555-0101", joined: "Jan 2020", contacts: 14, contracts: 48 },
   { name: "Northwind Catering", industry: "Hospitality", plan: "Pro",        spend: 48200,  jobs: 612,  city: "Chicago, IL",   health: 78, email: "hello@northwind.com",   phone: "+1 (312) 555-0192", joined: "Mar 2021", contacts: 6,  contracts: 12 },
   { name: "Iris Holdings",      industry: "Real Estate", plan: "Enterprise", spend: 218400, jobs: 2480, city: "Miami, FL",     health: 96, email: "mgmt@irisholdings.net", phone: "+1 (305) 555-0177", joined: "Jun 2019", contacts: 22, contracts: 64 },
