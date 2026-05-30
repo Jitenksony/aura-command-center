@@ -4,6 +4,7 @@ import { biz, slugify, type Business } from "./businesses";
 import {
   ArrowLeft, Mail, Phone, Clock, Shield, Users, FileText, Wallet,
   CheckCircle2, AlertCircle, Briefcase, CreditCard, Activity, Building2, MapPin,
+  LifeBuoy, Banknote,
 } from "lucide-react";
 
 export const Route = createFileRoute("/businesses/$slug")({
