@@ -18,7 +18,7 @@ export const Route = createFileRoute("/businesses")({
   component: BusinessesPage,
 });
 
-type Business = {
+export type Business = {
   name: string; industry: string; plan: string; spend: number; jobs: number; city: string; health: number;
   email?: string; phone?: string; joined?: string; contacts?: number; contracts?: number; suspended?: boolean;
   suspendReason?: string;
