@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { TableSkeleton } from "@/components/admin/PageSkeletons";
 import { Search, UserPlus, Download, MoreHorizontal, Mail, Ban, ShieldCheck, Eye } from "lucide-react";
 import { PageShell, StatTile } from "@/components/admin/PageShell";
@@ -38,7 +38,7 @@ export const Route = createFileRoute("/users")({
   component: UsersPage,
 });
 
-type User = {
+export type User = {
   name: string;
   email: string;
   role: "Customer" | "Worker";
@@ -48,7 +48,7 @@ type User = {
   status: "Active" | "Pending" | "Suspended";
 };
 
-const initialUsers: User[] = [
+export const initialUsers: User[] = [
   { name: "Sofia Martinez",    email: "sofia@m.com",     role: "Customer", city: "New York, NY", joined: "Mar 12, 2024", spend: 1840, status: "Active" },
   { name: "Kenji Watanabe",    email: "kenji@w.io",      role: "Worker",   city: "Austin, TX",   joined: "Jan 04, 2024", spend: 0,    status: "Active" },
   { name: "Amara Okonkwo",     email: "amara@o.co",      role: "Customer", city: "Lagos, NG",    joined: "Dec 22, 2023", spend: 612,  status: "Suspended" },
@@ -58,6 +58,8 @@ const initialUsers: User[] = [
   { name: "Mei Lin",           email: "mei@lin.tw",      role: "Customer", city: "Taipei, TW",   joined: "Sep 14, 2024", spend: 188,  status: "Pending" },
   { name: "Jordan Reyes",      email: "jordan@r.com",    role: "Worker",   city: "Toronto, CA",  joined: "Feb 11, 2024", spend: 0,    status: "Active" },
 ];
+
+export const slugify = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
 const statusStyle: Record<string, string> = {
   Active:    "text-[var(--color-success)] bg-[oklch(0.72_0.18_150_/_0.12)]",
@@ -69,12 +71,12 @@ const TABS = ["All", "Customers", "Workers", "Suspended"] as const;
 type Tab = typeof TABS[number];
 
 function UsersPage() {
+  const navigate = useNavigate();
   const [users, setUsers] = useState<User[]>(initialUsers);
   const [tab, setTab] = useState<Tab>("All");
   const [query, setQuery] = useState("");
   const [inviteOpen, setInviteOpen] = useState(false);
   const [invite, setInvite] = useState({ name: "", email: "", role: "Customer" as "Customer" | "Worker" });
-  const [viewUser, setViewUser] = useState<User | null>(null);
 
   const filtered = useMemo(() => users.filter((u) => {
     if (tab === "Customers" && u.role !== "Customer") return false;
@@ -181,7 +183,9 @@ function UsersPage() {
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-gradient-to-br from-indigo-500 to-cyan-400 grid place-items-center text-[10px] font-bold text-white">{u.name.split(" ").map((s) => s[0]).join("")}</div>
                     <div>
-                      <div className="text-white font-medium">{u.name}</div>
+                      <Link to="/users/$slug" params={{ slug: slugify(u.name) }} className="text-white font-medium hover:text-[var(--color-cyan)] transition-colors">
+                        {u.name}
+                      </Link>
                       <div className="text-[11px] text-white/45">{u.email}</div>
                     </div>
                   </div>
@@ -197,7 +201,7 @@ function UsersPage() {
                       <button className="text-white/50 hover:text-white"><MoreHorizontal className="h-4 w-4" /></button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={() => setViewUser(u)}><Eye className="h-3.5 w-3.5 mr-2" /> View profile</DropdownMenuItem>
+                      <DropdownMenuItem onSelect={() => navigate({ to: "/users/$slug", params: { slug: slugify(u.name) } })}><Eye className="h-3.5 w-3.5 mr-2" /> View profile</DropdownMenuItem>
                       <DropdownMenuItem onClick={() => { navigator.clipboard?.writeText(u.email); toast.success("Email copied"); }}><Mail className="h-3.5 w-3.5 mr-2" /> Copy email</DropdownMenuItem>
                       <DropdownMenuSeparator />
                       {u.status === "Suspended" ? (
@@ -250,25 +254,6 @@ function UsersPage() {
         </DialogContent>
       </Dialog>
 
-      <Dialog open={!!viewUser} onOpenChange={(o) => !o && setViewUser(null)}>
-        <DialogContent>
-          {viewUser && (
-            <>
-              <DialogHeader>
-                <DialogTitle>{viewUser.name}</DialogTitle>
-                <DialogDescription>{viewUser.email}</DialogDescription>
-              </DialogHeader>
-              <div className="grid grid-cols-2 gap-3 text-xs">
-                <div className="rounded-lg border border-white/10 p-3"><div className="text-white/40 uppercase tracking-wider text-[10px]">Role</div><div className="text-white mt-1">{viewUser.role}</div></div>
-                <div className="rounded-lg border border-white/10 p-3"><div className="text-white/40 uppercase tracking-wider text-[10px]">Status</div><div className="text-white mt-1">{viewUser.status}</div></div>
-                <div className="rounded-lg border border-white/10 p-3"><div className="text-white/40 uppercase tracking-wider text-[10px]">City</div><div className="text-white mt-1">{viewUser.city}</div></div>
-                <div className="rounded-lg border border-white/10 p-3"><div className="text-white/40 uppercase tracking-wider text-[10px]">Joined</div><div className="text-white mt-1">{viewUser.joined}</div></div>
-                <div className="rounded-lg border border-white/10 p-3 col-span-2"><div className="text-white/40 uppercase tracking-wider text-[10px]">Lifetime spend</div><div className="text-white mt-1">${viewUser.spend.toLocaleString()}</div></div>
-              </div>
-            </>
-          )}
-        </DialogContent>
-      </Dialog>
     </PageShell>
   );
 }
