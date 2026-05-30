@@ -71,7 +71,11 @@ export function TransactionsTable() {
           </thead>
           <tbody>
             {tx.map((t) => (
-              <tr key={t.id} className="border-t border-white/5 hover:bg-white/[0.025] transition">
+              <tr
+                key={t.id}
+                onClick={() => toast(`Transaction ${t.id}`, { description: `${t.user} · ${t.method} · $${t.amount.toLocaleString()}` })}
+                className="border-t border-white/5 hover:bg-white/[0.025] transition cursor-pointer"
+              >
                 <td className="px-5 py-3 text-white/80 font-mono text-[12px]">{t.id}</td>
                 <td className="px-5 py-3 text-white">{t.user}</td>
                 <td className="px-5 py-3 text-white/60">{t.method}</td>
