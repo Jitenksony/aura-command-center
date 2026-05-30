@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Plus, Minus, Layers, Crosshair, Maximize2 } from "lucide-react";
+import { toast } from "sonner";
 
 interface Pin { id: number; x: number; y: number; type: "worker" | "job" | "business" | "emergency"; }
 
